@@ -6,8 +6,9 @@ These are the end points related to the user
 import sys
 # sys.path.append('../src')
 from src.app import app, mongodb_client
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from src.User.models import User
+
 
 @app.route('/user/signup', methods=['GET'])
 def showSignupPage():
@@ -66,6 +67,13 @@ def saveResume():
     Saves resume
     '''
     return User().saveResume()
+
+@app.route('/download/<fileid>')
+def downloadResume(fileid):
+    '''
+    Downloads a file from GridFS
+    '''
+    return User().downloadResume(fileid)
 
 
 @app.route('/healthcheck', methods=['GET'])
