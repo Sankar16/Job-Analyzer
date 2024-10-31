@@ -22,7 +22,7 @@
 [![DOI](https://zenodo.org/badge/555471755.svg)](https://zenodo.org/badge/latestdoi/555471755)
 
 
-## Group 20
+## Group 59
 Juggling multiple assignments, quizzes, projects, presentations, and clutching the deadlines every week? Feel like you have no time to watch your favorite series or sports team play let alone search for job posting on a day-to-day basis? Here comes JobCruncher.
 
 JobCruncher is an online job scraping and analysis tool that provides the user with the ability to filter jobs posted on Linkedin based on the user’s interest. LinkedIn is an employment-oriented online service that is a platform primarily used for professional networking and career development. This allows job seekers to post their CVs and employers to post jobs, hence a perfect site to scrap the job details from.
@@ -51,12 +51,12 @@ The Job Analyzer applocation can be deployed on any cloud service provider like 
 
 # Installation
 
-Check [INSTALL.md](https://github.com/TejasPrabhu/Job-Analyzer/blob/main/INSTALL.md) for installation instructions for Python, VS Code and MongoDB
+Check [INSTALL.md](https://github.com/SE24Fall/Job-Analyzer/blob/main/INSTALL.md) for installation instructions for Python, VS Code and MongoDB
 
 # To get started with project
 * Clone the repo
    ```
-    git clone https://github.com/subodh30/Job-Analyzer.git
+    git clone https://github.com/SE24Fall/Job-Analyzer.git
   
   ```
 * Setup virtual environment
@@ -73,7 +73,7 @@ Check [INSTALL.md](https://github.com/TejasPrabhu/Job-Analyzer/blob/main/INSTALL
   
   ```
 
-* After running command 'flask --app src.app run', in src directory you are good to go
+* After running command 'flask --app src.app run', in the directory containing src directory you are good to go
   
   ```
     flask --app src.app run
@@ -139,10 +139,8 @@ Thanks goes to these wonderful people.
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/ameyagv"><img src="https://avatars.githubusercontent.com/u/55804665?v=4" width="100px;" alt=""/><br/><sub><b>Ameya Vaichalkar</b></sub></a></td>
-    <td align="center"><a href="https://github.com/kunalpatil1810"><img src="https://avatars.githubusercontent.com/u/68049672?v=4" width="100px;" alt=""/><br/><sub><b>Kunal Patil</b></sub></a></td>
-    <td align="center"><a href="https://github.com/RoninS28"><img src="https://avatars.githubusercontent.com/u/60844691?v=4" width="100px;" alt=""/><br/><sub><b>Rohan Shiveshwarkar</b></sub></a></td>
-    <td align="center"><a href="https://github.com/subodh30"><img src="https://avatars.githubusercontent.com/u/22406193?v=4" width="100px;" alt=""/><br/><sub><b>Subodh Gujar</b></sub></a></td>
-    <td align="center"><a href="https://github.com/Yash-567"><img src="https://avatars.githubusercontent.com/u/46718837?v=4" width="100px;" alt=""/><br/><sub><b>Yash Sonar</b></sub></a></td>
+    <td align="center"><a href="https://github.com/abivis2k"><img src="https://avatars.githubusercontent.com/u/81951099?s=400&v=4" width="100px;" alt=""/><br/><sub><b>Abishek Viswanath Pittamandalam</b></sub></a></td>
+    <td align="center"><a href="https://github.com/ashwinchelsea14"><img src="https://avatars.githubusercontent.com/u/75059607?s=400&v=4" width="100px;" alt=""/><br/><sub><b>Ashwinkumar Manickam Vaithiyanathan</b></sub></a></td>
+    <td align="center"><a href="https://github.com/ishwarya0103"><img src="https://avatars.githubusercontent.com/u/179175525?s=400&v=4" width="100px;" alt=""/><br/><sub><b>Ishwarya Anandakrishnan</b></sub></a></td>
   </tr>
 </table>
