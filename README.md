@@ -123,15 +123,15 @@ The `docs` folder incorporates all necessary documents and documentation in our 
    As the job market grows exponentially every year, the JobCruncher tool has to keep up with this pace and hence has to shed many overheads induced in the current process.
    
 ### Phase 2:
-  1.	**Deploying on AWS** – The main idea is to make JobCruncher serverless. Removing the need for a local server and pushing to the cloud amplifies usability. Using AWS lambda, S3, Cloudwatch, and SNS services to schedule jobs for every X hours to scrap job listing from each employee-oriented site.
+  1.	**Deploying on AWS** – Make JobCruncher serverless by using AWS Lambda, S3, CloudWatch, and SNS services, thereby amplifying usability and scheduling jobs to scrape job listings from each employment-oriented site every X hours.
 
-  2.	**User Profile** – Adding the feature of the user profile to JobCruncher provides the functionality of extracting the vital features from user information and accordingly deduces the scraped job based on the extracted feature.
+  2.	**Resume analyzer** – Provide a resume analyzer that offers services to match jobs by analyzing resumes, give ATS scores, and suggest personalized resume improvements for specific jobs.
+  
+  3.	**2FA** - Enhance security by implementing two-factor authentication (2FA), significantly reducing the risk of unauthorized access and ensuring that sensitive information remains secure
 
-  3.	**Features from Resume** – The user can upload a Resume / CV and cover letter. Using text analysis we can extract the cardinal features such as technical skills, projects, experience, and job position, and cater to the user’s job search needs.
-  4.	**Notification System** – In phase 2, as every user has a unique profile associated with them, a notification system can be set up in order to notify the user of any new job updates.
+  4.	**Recruiter page** - Introduce a new user type known as "recruiter," who will possess the capability to create, manage, and oversee job listings efficiently, facilitating a streamlined hiring process and enhancing the overall recruitment experience
 
-  5.	**Chatbot Integration** – This is a feel-good feature that provides the user with an easy-to-interact chatbot that provides information and ways to access the features provided by JobCruncher.
-
+  5.	**Notification System** – Introduce a notification system to notify users about new job openings by sending timely email alerts, ensuring they stay informed and never miss out on potential opportunities that align with their career aspirations.
 
 ## Roadmap
 We have a lot planned for the future! Completed tasks and future enhancements can be found [here](https://github.com/users/subodh30/projects/3)
