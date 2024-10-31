@@ -82,16 +82,17 @@ Check [INSTALL.md](https://github.com/SE24Fall/Job-Analyzer/blob/main/INSTALL.md
   
 # Application Preview:
 
-### Search Page
-<img width="1200"  src="https://user-images.githubusercontent.com/52947925/194797244-dd0c6e87-0f7b-4db7-a632-6bce14d6b54a.jpeg">
+### Homepage
+![image](https://github.com/user-attachments/assets/f0f31843-3bd6-4f89-9485-686f66247c0c)
 
-### Result Page
-<img width="1200"  src="https://user-images.githubusercontent.com/52947925/194797249-873d708f-855b-4023-8adc-44f145d28076.jpeg">
+### Search criteria
+![image](https://github.com/user-attachments/assets/5097927c-ec9e-42b2-8dd2-16b687c291fa)
 
-### Filtering the results
+### Job listings
+![image](https://github.com/user-attachments/assets/a8888418-8529-4bac-a8cd-5df118c6d605)
 
-<img width="1200"  src="https://user-images.githubusercontent.com/52947925/194797259-37f261fb-0cf8-4f3c-b884-c68cb09f22f0.jpeg">
-
+### Edit profile
+![image](https://github.com/user-attachments/assets/ee06b892-783c-488d-b40d-cb62e0461f37)
 
 # Tech Stack used for the development of this project
  
