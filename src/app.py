@@ -10,8 +10,12 @@ license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.
 """
 
-from flask import Flask, render_template, request, session, redirect, url_for  # noqa: E402
+from flask import Flask, render_template, request, session, redirect, url_for, flash  # noqa: E402
 from flask_pymongo import PyMongo  # noqa: E402
+#from flask_mail import Mail, Message
+#from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
+#from werkzeug.security import generate_password_hash, check_password_hash
+from passlib.hash import pbkdf2_sha256
 from pandas import DataFrame  # noqa: E402
 import re  # noqa: E402
 import numpy as np  # noqa: E402
@@ -61,6 +65,37 @@ def login_required(f):
             return redirect('/')
 
     return wrap
+
+@app.route('/reset', methods=["GET", "POST"])
+def Reset_password():
+    
+    # user_id = session['user']['_id']
+    # user = mongodb_client.db.users.find_one({"_id": user_id})
+    
+    # if mongodb_client.db.users.find_one({'email': user['email']}):
+
+    if request.method == "POST":
+        email = request.form["email"]
+        new_password = request.form["new_password"]
+        confirm_password = request.form["confirm_password"]
+
+        # Check if new passwords match
+        if new_password != confirm_password:
+            flash("New passwords do not match.", "danger")
+            return redirect(url_for("reset"))
+
+        #user_email = session['user']['email']
+            
+        if mongodb_client.db.users.find_one({'email': email}):
+            
+            # Hash and update the new password
+            hashed_password = pbkdf2_sha256.hash(new_password)
+            mongodb_client.db.users.update_one({"email": email}, {"$set": {"password": hashed_password}})
+                
+            flash("Your password has been updated successfully.", "success")
+            return redirect("/")
+    
+    return render_template("reset-password.html")
 
 
 @app.route('/signup')

@@ -26,8 +26,11 @@
                   <div class="form-outline flex-fill mb-0">
                     <input name="password" type="password" id="form3Example4c" class="form-control" />
                     <label class="form-label" for="form3Example4c">Password</label>
-                  </div>
+                  </div>                                   
                 </div>
+                <div>
+                  <a href = "{{ url_for('Reset_password') }}">Forgot Password</a>
+                </div> 
                 {% if session.isCredentialsWrong %}
                 <label style="
                       color: red;
@@ -39,8 +42,13 @@
                   <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                 </div>
 
-              </form>
+                <!--<div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4 forgpass">
+                  <button type="button" class="btn btn-primary btn-lg">Forgot Password :o</button>
+                </div> -->
 
+              </form>
+                
+                
             </div>
 
           </div>
