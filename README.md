@@ -134,7 +134,8 @@ The `docs` folder incorporates all necessary documents and documentation in our 
   5.	**Notification System** – Introduce a notification system to notify users about new job openings by sending timely email alerts, ensuring they stay informed and never miss out on potential opportunities that align with their career aspirations.
 
 ## Roadmap
-We have a lot planned for the future! Completed tasks and future enhancements can be found [here]([https://github.com/users/subodh30/projects/3](https://github.com/orgs/SE24Fall/projects/1))
+We have a lot planned for the future! Completed tasks and future enhancements can be found [here](https://github.com/orgs/SE24Fall/projects/1)
+
 ## Contributors
 Thanks goes to these wonderful people. 
 
