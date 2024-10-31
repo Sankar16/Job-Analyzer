@@ -2,12 +2,15 @@
 Contains user model functions
 '''
 
-from flask import jsonify, request, session, redirect, render_template
+from flask import jsonify, request, session, redirect, render_template, url_for, send_file
 from passlib.hash import pbkdf2_sha256
 from src.app import db, mongodb_client
 import uuid
+import gridfs
+from io import BytesIO
+from bson import ObjectId
 
-
+fs = gridfs.GridFS(db)
 
 class User:
     '''
@@ -59,6 +62,7 @@ class User:
         '''
         session['isCredentialsWrong'] = False
         user = db.users.find_one({'email': request.form.get('email')})
+        print(user)
         if user and pbkdf2_sha256.verify(str(request.form.get('password')), user['password']):
             self.startSession(user)
             session['isCredentialsWrong'] = False
@@ -82,6 +86,25 @@ class User:
         '''
         if 'resume_file' in request.files:
             resume = request.files['resume_file']
-            mongodb_client.save_file(resume.filename, resume)
-            mongodb_client.db.users.insert({'email': request.form.get('email'), 'resume_filename': resume.filename})
-        return render_template('user_profile.html')
+            # print(resume)
+            # mongodb_client.save_file(resume.filename, resume)
+
+            file_id = fs.put(resume, filename=resume.filename)
+            file_id_str = str(file_id)
+            
+            # Update the user in the database
+            user_email = session['user']['email']  # Get the current user's email
+            db.users.update_one(
+                {'email': user_email},  # Find the user by email
+                {'$set': {'resume_filename': resume.filename, 'resume_fileid' : file_id_str}}  # Update the resume filename
+            )
+            
+            # Update the session data with the new filename
+            session['user']['resume_filename'] = resume.filename
+            session['user']['resume_fileid'] = file_id
+
+        return render_template('user_profile.html', user=session['user'])
+
+    def downloadResume(self, fileid):
+        file_data = fs.get(ObjectId(fileid))
+        return send_file(BytesIO(file_data.read()), mimetype='application/pdf', as_attachment=False, download_name=file_data.filename)

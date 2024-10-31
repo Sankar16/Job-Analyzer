@@ -22,7 +22,7 @@
 [![DOI](https://zenodo.org/badge/555471755.svg)](https://zenodo.org/badge/latestdoi/555471755)
 
 
-## Group 20
+## Group 59
 Juggling multiple assignments, quizzes, projects, presentations, and clutching the deadlines every week? Feel like you have no time to watch your favorite series or sports team play let alone search for job posting on a day-to-day basis? Here comes JobCruncher.
 
 JobCruncher is an online job scraping and analysis tool that provides the user with the ability to filter jobs posted on Linkedin based on the user’s interest. LinkedIn is an employment-oriented online service that is a platform primarily used for professional networking and career development. This allows job seekers to post their CVs and employers to post jobs, hence a perfect site to scrap the job details from.
@@ -51,12 +51,12 @@ The Job Analyzer applocation can be deployed on any cloud service provider like 
 
 # Installation
 
-Check [INSTALL.md](https://github.com/TejasPrabhu/Job-Analyzer/blob/main/INSTALL.md) for installation instructions for Python, VS Code and MongoDB
+Check [INSTALL.md](https://github.com/SE24Fall/Job-Analyzer/blob/main/INSTALL.md) for installation instructions for Python, VS Code and MongoDB
 
 # To get started with project
 * Clone the repo
    ```
-    git clone https://github.com/subodh30/Job-Analyzer.git
+    git clone https://github.com/SE24Fall/Job-Analyzer.git
   
   ```
 * Setup virtual environment
@@ -73,7 +73,7 @@ Check [INSTALL.md](https://github.com/TejasPrabhu/Job-Analyzer/blob/main/INSTALL
   
   ```
 
-* After running command 'flask --app src.app run', in src directory you are good to go
+* After running command 'flask --app src.app run', in the directory containing src directory you are good to go
   
   ```
     flask --app src.app run
@@ -82,16 +82,17 @@ Check [INSTALL.md](https://github.com/TejasPrabhu/Job-Analyzer/blob/main/INSTALL
   
 # Application Preview:
 
-### Search Page
-<img width="1200"  src="https://user-images.githubusercontent.com/52947925/194797244-dd0c6e87-0f7b-4db7-a632-6bce14d6b54a.jpeg">
+### Homepage
+![image](https://github.com/user-attachments/assets/f0f31843-3bd6-4f89-9485-686f66247c0c)
 
-### Result Page
-<img width="1200"  src="https://user-images.githubusercontent.com/52947925/194797249-873d708f-855b-4023-8adc-44f145d28076.jpeg">
+### Search criteria
+![image](https://github.com/user-attachments/assets/5097927c-ec9e-42b2-8dd2-16b687c291fa)
 
-### Filtering the results
+### Job listings
+![image](https://github.com/user-attachments/assets/a8888418-8529-4bac-a8cd-5df118c6d605)
 
-<img width="1200"  src="https://user-images.githubusercontent.com/52947925/194797259-37f261fb-0cf8-4f3c-b884-c68cb09f22f0.jpeg">
-
+### Edit profile
+![image](https://github.com/user-attachments/assets/ee06b892-783c-488d-b40d-cb62e0461f37)
 
 # Tech Stack used for the development of this project
  
@@ -122,27 +123,26 @@ The `docs` folder incorporates all necessary documents and documentation in our 
    As the job market grows exponentially every year, the JobCruncher tool has to keep up with this pace and hence has to shed many overheads induced in the current process.
    
 ### Phase 2:
-  1.	**Deploying on AWS** – The main idea is to make JobCruncher serverless. Removing the need for a local server and pushing to the cloud amplifies usability. Using AWS lambda, S3, Cloudwatch, and SNS services to schedule jobs for every X hours to scrap job listing from each employee-oriented site.
+  1.	**Deploying on AWS** – Make JobCruncher serverless by using AWS Lambda, S3, CloudWatch, and SNS services, thereby amplifying usability and scheduling jobs to scrape job listings from each employment-oriented site every X hours.
 
-  2.	**User Profile** – Adding the feature of the user profile to JobCruncher provides the functionality of extracting the vital features from user information and accordingly deduces the scraped job based on the extracted feature.
+  2.	**Resume analyzer** – Provide a resume analyzer that offers services to match jobs by analyzing resumes, give ATS scores, and suggest personalized resume improvements for specific jobs.
+  
+  3.	**2FA** - Enhance security by implementing two-factor authentication (2FA), significantly reducing the risk of unauthorized access and ensuring that sensitive information remains secure
 
-  3.	**Features from Resume** – The user can upload a Resume / CV and cover letter. Using text analysis we can extract the cardinal features such as technical skills, projects, experience, and job position, and cater to the user’s job search needs.
-  4.	**Notification System** – In phase 2, as every user has a unique profile associated with them, a notification system can be set up in order to notify the user of any new job updates.
+  4.	**Recruiter page** - Introduce a new user type known as "recruiter," who will possess the capability to create, manage, and oversee job listings efficiently, facilitating a streamlined hiring process and enhancing the overall recruitment experience
 
-  5.	**Chatbot Integration** – This is a feel-good feature that provides the user with an easy-to-interact chatbot that provides information and ways to access the features provided by JobCruncher.
-
+  5.	**Notification System** – Introduce a notification system to notify users about new job openings by sending timely email alerts, ensuring they stay informed and never miss out on potential opportunities that align with their career aspirations.
 
 ## Roadmap
-We have a lot planned for the future! Completed tasks and future enhancements can be found [here](https://github.com/users/subodh30/projects/3)
+We have a lot planned for the future! Completed tasks and future enhancements can be found [here](https://github.com/orgs/SE24Fall/projects/1)
+
 ## Contributors
 Thanks goes to these wonderful people. 
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/ameyagv"><img src="https://avatars.githubusercontent.com/u/55804665?v=4" width="100px;" alt=""/><br/><sub><b>Ameya Vaichalkar</b></sub></a></td>
-    <td align="center"><a href="https://github.com/kunalpatil1810"><img src="https://avatars.githubusercontent.com/u/68049672?v=4" width="100px;" alt=""/><br/><sub><b>Kunal Patil</b></sub></a></td>
-    <td align="center"><a href="https://github.com/RoninS28"><img src="https://avatars.githubusercontent.com/u/60844691?v=4" width="100px;" alt=""/><br/><sub><b>Rohan Shiveshwarkar</b></sub></a></td>
-    <td align="center"><a href="https://github.com/subodh30"><img src="https://avatars.githubusercontent.com/u/22406193?v=4" width="100px;" alt=""/><br/><sub><b>Subodh Gujar</b></sub></a></td>
-    <td align="center"><a href="https://github.com/Yash-567"><img src="https://avatars.githubusercontent.com/u/46718837?v=4" width="100px;" alt=""/><br/><sub><b>Yash Sonar</b></sub></a></td>
+    <td align="center"><a href="https://github.com/abivis2k"><img src="https://avatars.githubusercontent.com/u/81951099?s=400&v=4" width="100px;" alt=""/><br/><sub><b>Abishek Viswanath Pittamandalam</b></sub></a></td>
+    <td align="center"><a href="https://github.com/ashwinchelsea14"><img src="https://avatars.githubusercontent.com/u/75059607?s=400&v=4" width="100px;" alt=""/><br/><sub><b>Ashwinkumar Manickam Vaithiyanathan</b></sub></a></td>
+    <td align="center"><a href="https://github.com/ishwarya0103"><img src="https://avatars.githubusercontent.com/u/179175525?s=400&v=4" width="100px;" alt=""/><br/><sub><b>Ishwarya Anandakrishnan</b></sub></a></td>
   </tr>
 </table>
