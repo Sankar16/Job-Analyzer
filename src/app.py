@@ -10,11 +10,7 @@ license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.
 """
 
-<<<<<<< HEAD
-from flask import Flask, render_template, request, session, redirect, url_for, flash  # noqa: E402
-=======
-from flask import Flask, render_template, request, session, redirect, url_for, send_file  # noqa: E402
->>>>>>> main
+from flask import Flask, render_template, request, session, redirect, url_for, flash, send_file  # noqa: E402
 from flask_pymongo import PyMongo  # noqa: E402
 #from flask_mail import Mail, Message
 #from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
