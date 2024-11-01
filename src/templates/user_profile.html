@@ -47,7 +47,15 @@
                         </div>
                         
                         <button type="submit">Submit Resume</button>
+                        <a href = "{{ url_for('home') }}">
+                          <button>Return-home</button>
+                        </a>
                     </form>
+                    <!-- <div>
+                      <a href = "{{ url_for('home') }}">
+                        <button>Return-home</button>
+                      </a>
+                    </div>  -->
                     <!-- Add Download PDF link if a resume file is uploaded -->
                     {% if user.resume_fileid %}
                     <div class="mt-4">
