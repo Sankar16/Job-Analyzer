@@ -34,9 +34,6 @@ def signup():
     return User().signup()
     
 
-
-
-
 @app.route('/user/logout')
 def signout():
     '''
