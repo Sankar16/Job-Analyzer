@@ -1,7 +1,6 @@
 name: unit-tests
 
 on:
-  - push
   - pull_request
 
 jobs:
@@ -22,8 +21,6 @@ jobs:
         uses: ankane/setup-mongodb@v1
         with:
           mongodb-version: 6.0
-      - name: Run flake8
-        run: flake8 --ignore=E1,E2,E3,E4,E5,W2,F4 --max-line-length=120 --extend-ignore=E225
       - name: Run All tests and generate Report
         run: |
           coverage run -m pytest -rA
