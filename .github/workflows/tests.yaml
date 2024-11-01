@@ -21,12 +21,17 @@ jobs:
         uses: ankane/setup-mongodb@v1
         with:
           mongodb-version: 6.0
-      - name: Run All tests and generate Report
+      - name: Run pytest
         run: |
-          coverage run -m pytest -rA
+        pytest test/test_flask.py
+      - name: Run coverage
+        if: success() || failure()
+        run: |
+          coverage run src/app.py src/User/models.py src/User/routes.py
+          coverage lcov
       - name: Upload to coveralls
         if: success() || failure()
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          file: coverage.xml
+          file: coverage.lcov
