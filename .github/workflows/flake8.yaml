@@ -1,4 +1,4 @@
-name: autopep8
+name: flake8
 on:
   pull_request:
     branches: [ "main" ]
