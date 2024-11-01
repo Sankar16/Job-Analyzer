@@ -9,37 +9,33 @@
 
 
 
-[![GitHub](https://img.shields.io/github/license/TejasPrabhu/Job-Analyzer)](https://github.com/TejasPrabhu/Job-Analyzer/blob/main/LICENSE)
+![GitHub License](https://img.shields.io/github/license/SE24Fall/Job-Analyzer)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![GitHub issues](https://img.shields.io/github/issues-raw/TejasPrabhu/Job-Analyzer)](https://github.com/TejasPrabhu/Job-Analyzer/issues?q=is%3Aopen+is%3Aissue)
-[![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/TejasPrabhu/Job-Analyzer)](https://github.com/TejasPrabhu/Job-Analyzer/issues?q=is%3Aissue+is%3Aclosed)
-[![GitHub contributors](https://img.shields.io/github/contributors/TejasPrabhu/Job-Analyzer)](https://github.com/TejasPrabhu/Job-Analyzer/graphs/contributors)
-![GitHub repo size](https://img.shields.io/github/repo-size/TejasPrabhu/Job-Analyzer)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/TejasPrabhu/Job-Analyzer)](https://github.com/TejasPrabhu/Job-Analyzer/pulls?q=is%3Aopen+is%3Apr)
-[![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed-raw/TejasPrabhu/Job-Analyzer)](https://github.com/TejasPrabhu/Job-Analyzer/pulls?q=is%3Apr+is%3Aclosed)
+![GitHub Issues](https://img.shields.io/github/issues/SE24Fall/Job-Analyzer)
+![GitHub Issues closed](https://img.shields.io/github/issues-closed/SE24Fall/Job-Analyzer)
+![GitHub contributors](https://img.shields.io/github/contributors/SE24Fall/Job-Analyzer)
+![GitHub repo size](https://img.shields.io/github/repo-size/SE24Fall/Job-Analyzer)
+![GitHub Pull Requests](https://img.shields.io/github/issues-pr/SE24Fall/Job-Analyzer)
+![GitHub Pull Requests Closed](https://img.shields.io/github/issues-pr-closed/SE24Fall/Job-Analyzer)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/TejasPrabhu/Job-Analyzer/unit-tests)
-[![codecov](https://codecov.io/gh/TejasPrabhu/Job-Analyzer/branch/main/graph/badge.svg)](https://codecov.io/gh/TejasPrabhu/Job-Analyzer)
+[![Coverage Status](https://coveralls.io/repos/github/SE24Fall/Job-Analyzer/badge.svg?branch=main)](https://coveralls.io/github/SE24Fall/Job-Analyzer?branch=main)
 [![DOI](https://zenodo.org/badge/555471755.svg)](https://zenodo.org/badge/latestdoi/555471755)
+[![flake8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml)
+[![pyflakes](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml)
+[![autopep8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/autopep8.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/autopep8.yaml)
 
 
 ## Group 59
 Juggling multiple assignments, quizzes, projects, presentations, and clutching the deadlines every week? Feel like you have no time to watch your favorite series or sports team play let alone search for job posting on a day-to-day basis? Here comes JobCruncher.
 
-JobCruncher is an online job scraping and analysis tool that provides the user with the ability to filter jobs posted on Linkedin based on the user’s interest. LinkedIn is an employment-oriented online service that is a platform primarily used for professional networking and career development. This allows job seekers to post their CVs and employers to post jobs, hence a perfect site to scrap the job details from.
+JobCruncher is built for those with packed schedules, balancing studies, projects, and personal interests. It simplifies job searching by providing an easy-to-use, streamlined platform for finding the best-matched roles in less time. With a lightweight, user-friendly interface, JobCruncher lets users have a secured platform, modify resume, bookmark job postings and filter job postings according to title, location, company, skills, and job type, giving you the freedom to focus on life while we handle the search. 
 
 So, leave the tedious and monotonous task of looking up the job postings to our JobCruncher that not only provides the jobs posted every day but helps to filter out the results based on your liking.
 
 # So why use JobCruncher instead?
 
 ## Project 1 Video
-https://www.youtube.com/watch?v=_ASFR0DymiU&ab_channel=TejasPrabhu
-
-## Project 2 Video
-
-
-https://user-images.githubusercontent.com/22406193/205814496-8c3c669d-8a57-4bb3-99bc-27c8a109b75a.mp4
-
-
+https://github.com/user-attachments/assets/511e0804-9d44-47ad-bac3-afaa46f6ca2c
 
 Unlike many other job portals, JobCruncher is a simple, lightweight, online tool that helps users get clear information about the jobs posted on LinkedIn and further help the user finetune the results.
 
@@ -114,8 +110,7 @@ The `docs` folder incorporates all necessary documents and documentation in our 
 | Files | Coverage    |
 | :---:   | :---: |
 |src/scraper.py      |	61.34%  |
-|test/test_flask.py  |	100.00% |	
-|test/test_scraper.py|	100.00% |	
+|test/test_flask.py  |	100.00% |
 |src/app.py          |	100.00% |
  
 

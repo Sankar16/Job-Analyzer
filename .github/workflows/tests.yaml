@@ -1,7 +1,6 @@
 name: unit-tests
 
 on:
-  - push
   - pull_request
 
 jobs:
@@ -22,10 +21,17 @@ jobs:
         uses: ankane/setup-mongodb@v1
         with:
           mongodb-version: 6.0
-      - name: Run flake8
-        run: flake8 --ignore=E1,E2,E3,E4,E5,W2,F4 --max-line-length=120 --extend-ignore=E225
-      - name: Run All tests and generate Report
+      - name: Run pytest
         run: |
-          coverage run -m pytest -rA
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v2
+        pytest test/test_flask.py
+      - name: Run coverage
+        if: success() || failure()
+        run: |
+          coverage run src/app.py src/User/models.py src/User/routes.py
+          coverage lcov
+      - name: Upload to coveralls
+        if: success() || failure()
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          file: coverage.lcov

@@ -1,0 +1,23 @@
+name: autopep8
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install autopep8
+      - name: Static analysis using autopep8 
+        run: autopep8 src/app.py src/User/models.py src/User/routes.py --max-line-length 100 --diff
