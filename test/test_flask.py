@@ -177,7 +177,7 @@ def test_reset_password_ip12():
     New_Password = ""         # new password blank
     Confirm_password = "abc"
     
-        response = app.test_client().post('/reset', data={
+    response = app.test_client().post('/reset', data={
         "email": email,
         "new_password": New_Password,
         "confirm_password": Confirm_password
