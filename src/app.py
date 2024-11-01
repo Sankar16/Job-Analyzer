@@ -1,4 +1,11 @@
 from functools import wraps
+from flask import Flask, render_template, request, session, redirect, url_for, flash  # noqa: E402
+from flask_pymongo import PyMongo  # noqa: E402
+
+from passlib.hash import pbkdf2_sha256
+from pandas import DataFrame  # noqa: E402
+import re  # noqa: E402
+import numpy as np  # noqa: E402
 
 """
 The module app holds the function related to flask app and database.
@@ -9,19 +16,6 @@ Use of this source code is governed by an MIT-style
 license that can be found in the LICENSE file or at
 https://opensource.org/licenses/MIT.
 """
-
-from flask import Flask, render_template, request, session, redirect, url_for, flash, send_file  # noqa: E402
-from flask_pymongo import PyMongo  # noqa: E402
-#from flask_mail import Mail, Message
-#from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
-#from werkzeug.security import generate_password_hash, check_password_hash
-from passlib.hash import pbkdf2_sha256
-from pandas import DataFrame  # noqa: E402
-import re  # noqa: E402
-import numpy as np  # noqa: E402
-import gridfs
-import requests
-
 
 app = Flask(__name__)
 '''
@@ -44,7 +38,7 @@ app.config["MONGO_URI"] = mongo_conn + mongo_params
 
 mongodb_client = PyMongo(app)
 '''
-Client connection 
+Client connection
 '''
 db = mongodb_client.db
 
@@ -55,7 +49,6 @@ def login_required(f):
     """
 
     @wraps(f)
-  
     def wrap(*args, **kwargs):
         '''
         This wrap function renders the redirect page
@@ -67,13 +60,14 @@ def login_required(f):
 
     return wrap
 
+
 @app.route('/reset', methods=["GET", "POST"])
 def Reset_password():
     """
     Route : '/reset'
     Forgot password feature; also updates the password in MongoDB
     """
-    # mongodb_client.db.users.find_one({"_id": user_id})    
+    # mongodb_client.db.users.find_one({"_id": user_id})
     # mongodb_client.db.users.find_one({'email': user['email']})
 
     if request.method == "POST":
@@ -87,14 +81,14 @@ def Reset_password():
             return redirect(url_for("reset"))
 
         if mongodb_client.db.users.find_one({'email': email}):
-            
+
             # Hash and update the new password
             hashed_password = pbkdf2_sha256.hash(new_password)
             mongodb_client.db.users.update_one({"email": email}, {"$set": {"password": hashed_password}})
-                
+
             flash("Your password has been updated successfully.", "success")
             return redirect("/")
-    
+
     return render_template("reset-password.html")
 
 
@@ -105,6 +99,7 @@ def sgup():
     The index function renders the index.html page.
     """
     return render_template('signup.html')
+
 
 @app.route('/bookmark')
 def bookmark():
@@ -121,6 +116,7 @@ def bookmark():
 
     return redirect('/joblistings')
 
+
 @app.route('/unbookmark')
 def unbookmark():
     """
@@ -132,13 +128,14 @@ def unbookmark():
 
     return redirect('/joblistings')
 
+
 @app.route('/login')
 def login():
     """
     Route: '/'
     The login function renders login.html page.
     """
-    if not 'isCredentialsWrong' in session:
+    if 'isCredentialsWrong' not in session:
         session['isCredentialsWrong'] = False
     return render_template('login.html')
 
@@ -159,7 +156,7 @@ def home():
     Route: '/home'
     The home function renders the index.html page
     """
-    
+
     return render_template('index.html')
 
 
@@ -199,10 +196,10 @@ def joblistings():
         return render_template('job_posting.html', job_count=job_count,
                                tables=['''
                 <style>
-                    .table-class {border-collapse: collapse;    margin: 24px 0; 
+                    .table-class {border-collapse: collapse;    margin: 24px 0;
                         font-size: 15px; background-color: #000000;
                     font-family: sans-serif;    min-width: 500px;    }
-                    .table-class thead tr {background-color: #002147;    color: #ffffff; 
+                    .table-class thead tr {background-color: #002147;    color: #ffffff;
                     text-align: left; font-weight: 600; }
                     .table-class th,.table-class td {    text-align:center; padding: 12.4px 15.2px;}
                     .table-class tbody tr {border-bottom: 1px solid #ffffff; border-top-left-radius: 20px;
@@ -214,11 +211,11 @@ def joblistings():
                     table tr th { text-align:center; }
                 </style>
             ''' + job_df.to_html(classes="table-class", render_links=True, escape=False)],
-            titles=job_df.columns.values)
+                               titles=job_df.columns.values)
 
-    elif request.method == 'GET': #If we hit redirect after bookmarking/unbookmarking a job listing.
+    elif request.method == 'GET':  # If we hit redirect after bookmarking/unbookmarking a job listing.
         print("into req get")
-        #Initializing a dummy POST data for the read_from_db function
+        # Initializing a dummy POST data for the read_from_db function
         request.form = {}
         request.form['title'] = ''
         request.form['location'] = ''
@@ -241,10 +238,10 @@ def joblistings():
         return render_template('job_posting.html', job_count=job_count,
                                tables=['''
                 <style>
-                    .table-class {border-collapse: collapse;    margin: 24px 0; 
+                    .table-class {border-collapse: collapse;    margin: 24px 0;
                         font-size: 15px; background-color: #000000;
                     font-family: sans-serif;    min-width: 500px;    }
-                    .table-class thead tr {background-color: #002147;    color: #ffffff; 
+                    .table-class thead tr {background-color: #002147;    color: #ffffff;
                     text-align: left; font-weight: 600; }
                     .table-class th,.table-class td {    text-align:center; padding: 12.4px 15.2px;}
                     .table-class tbody tr {border-bottom: 1px solid #ffffff; border-top-left-radius: 20px;
@@ -256,7 +253,8 @@ def joblistings():
                     table tr th { text-align:center; }
                 </style>
             ''' + job_df.to_html(classes="table-class", render_links=True, escape=False)],
-            titles=job_df.columns.values)
+                               titles=job_df.columns.values)
+
 
 @app.route('/search', methods=('GET', 'POST'))
 def search():
@@ -292,10 +290,10 @@ def search():
     #     return render_template('job_posting.html', job_count=job_count,
     #                            tables=['''
     # <style>
-    #     .table-class {border-collapse: collapse;    margin: 24px 0; 
+    #     .table-class {border-collapse: collapse;    margin: 24px 0;
     #         font-size: 15px; background-color: #000000;
     #     font-family: sans-serif;    min-width: 500px;    }
-    #     .table-class thead tr {background-color: #002147;    color: #ffffff; 
+    #     .table-class thead tr {background-color: #002147;    color:#ffffff;
     #        text-align: left; font-weight: 600; }
     #     .table-class th,.table-class td {    text-align:center; padding: 12.4px 15.2px;}
     #     .table-class tbody tr {border-bottom: 1px solid #ffffff; border-top-left-radius: 20px;
@@ -335,7 +333,7 @@ def read_from_db(request, db):
     regex_char = ['.', '+', '*', '?', '^', '$', '(', ')', '[', ']', '{', '}', '|']
 
     for char in regex_char:
-        skills = skills.replace(char, '\\'+char)
+        skills = skills.replace(char, '\\' + char)
 
     rgx_title = re.compile('.*' + job_title + '.*', re.IGNORECASE)
     rgx_location = re.compile('.*' + job_location + '.*', re.IGNORECASE)
@@ -354,7 +352,7 @@ def read_from_db(request, db):
 
     data = list(db.jobs.find(data_filter))
     user_id = session['user']['_id']
-    bookmarked_jobs = list(db.userjob.find({'user_id':user_id}))
+    bookmarked_jobs = list(db.userjob.find({'user_id': user_id}))
     for job in data:
 
         job_id = job['_id']
@@ -364,18 +362,18 @@ def read_from_db(request, db):
             if bookmarked_job['job_id'] == job_id:
                 flag = True
                 break
-        
+
         if flag:
             job['bookmarked'] = '1'
         else:
             job['bookmarked'] = '0'
-        
-    data = sorted(data, key = lambda x: x['bookmarked'], reverse = True)
+
+    data = sorted(data, key=lambda x: x['bookmarked'], reverse=True)
 
     for job in data:
         if job['bookmarked'] == '1':
             job['bookmarked'] = '<a href="/unbookmark?jobid=' + str(job['_id']) + '">📍</a>'
         else:
             job['bookmarked'] = '<a href="/bookmark?jobid=' + str(job['_id']) + '">📌</a>'
-    
+
     return DataFrame(list(data))

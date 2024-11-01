@@ -3,10 +3,9 @@ These are the end points related to the user
 '''
 
 
-import sys
 # sys.path.append('../src')
-from src.app import app, mongodb_client
-from flask import Flask, render_template, request, send_file
+from src.app import app
+from flask import render_template
 from src.User.models import User
 
 
@@ -14,7 +13,7 @@ from src.User.models import User
 def showSignupPage():
     return render_template('signup.html')
 
-    
+
 @app.route('/user/login', methods=['GET'])
 def showLoginPage():
     return render_template('login.html')
@@ -32,7 +31,7 @@ def signup():
     User signup
     '''
     return User().signup()
-    
+
 
 @app.route('/user/logout')
 def signout():
@@ -64,6 +63,7 @@ def saveResume():
     Saves resume
     '''
     return User().saveResume()
+
 
 @app.route('/download/<fileid>')
 def downloadResume(fileid):

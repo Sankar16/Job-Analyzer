@@ -2,9 +2,9 @@
 Contains user model functions
 '''
 
-from flask import jsonify, request, session, redirect, render_template, url_for, send_file, flash
+from flask import jsonify, request, session, redirect, render_template, send_file
 from passlib.hash import pbkdf2_sha256
-from src.app import db, mongodb_client
+from src.app import db
 import uuid
 import gridfs
 from io import BytesIO
@@ -12,9 +12,10 @@ from bson import ObjectId
 
 fs = gridfs.GridFS(db)
 
+
 class User:
     '''
-    This class handles user session and profile operations 
+    This class handles user session and profile operations
     '''
 
     def startSession(self, user):
@@ -30,6 +31,9 @@ class User:
         '''
         User signup using credentials
         '''
+        if (request.form.get('name') == "" or request.form.get('email') == "" or request.form.get('password') == ""):
+            return redirect('/')
+
         # print(request.form)
         user = {
             '_id': uuid.uuid4().hex,
@@ -45,8 +49,6 @@ class User:
             self.startSession(user)
             return redirect('/home')
 
-
-
         return (jsonify({'error': 'Signup failed'}), 400)
 
     def logout(self):
@@ -60,7 +62,12 @@ class User:
         '''
         Session Login
         '''
-        session['isCredentialsWrong'] = True
+        session['isCredentialsWrong'] = False
+
+        if (request.form.get('email') == "" or request.form.get('password') == ""):
+            session['isCredentialsWrong'] = True
+            return redirect('/')
+
         user = db.users.find_one({'email': request.form.get('email')})
         print(user)
         if user and pbkdf2_sha256.verify(str(request.form.get('password')), user['password']):
@@ -71,8 +78,7 @@ class User:
             session['isCredentialsWrong'] = True
             return redirect('/')
         else:
-            session['isCredentialsWrong'] = True
-            flash("something wrong")
+            return redirect('/')
 
     def showProfile(self):
         '''
@@ -90,14 +96,14 @@ class User:
 
             file_id = fs.put(resume, filename=resume.filename)
             file_id_str = str(file_id)
-            
+
             # Update the user in the database
             user_email = session['user']['email']  
             db.users.update_one(
                 {'email': user_email},  
                 {'$set': {'resume_filename': resume.filename, 'resume_fileid' : file_id_str}}  
             )
-            
+
             # Update the session data with the new filename
             session['user']['resume_filename'] = resume.filename
             session['user']['resume_fileid'] = file_id
