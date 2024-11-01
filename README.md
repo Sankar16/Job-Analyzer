@@ -110,8 +110,7 @@ The `docs` folder incorporates all necessary documents and documentation in our 
 | Files | Coverage    |
 | :---:   | :---: |
 |src/scraper.py      |	61.34%  |
-|test/test_flask.py  |	100.00% |	
-|test/test_scraper.py|	100.00% |	
+|test/test_flask.py  |	100.00% |
 |src/app.py          |	100.00% |
  
 
