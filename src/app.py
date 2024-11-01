@@ -70,11 +70,12 @@ def login_required(f):
 
 @app.route('/reset', methods=["GET", "POST"])
 def Reset_password():
-    
-    # user_id = session['user']['_id']
-    # user = mongodb_client.db.users.find_one({"_id": user_id})
-    
-    # if mongodb_client.db.users.find_one({'email': user['email']}):
+    """
+    Route : '/reset'
+    Forgot password feature; also updates the password in MongoDB
+    """
+    # mongodb_client.db.users.find_one({"_id": user_id})    
+    # mongodb_client.db.users.find_one({'email': user['email']})
 
     if request.method == "POST":
         email = request.form["email"]
@@ -86,8 +87,6 @@ def Reset_password():
             flash("New passwords do not match.", "danger")
             return redirect(url_for("reset"))
 
-        #user_email = session['user']['email']
-            
         if mongodb_client.db.users.find_one({'email': email}):
             
             # Hash and update the new password
