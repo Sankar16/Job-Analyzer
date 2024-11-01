@@ -18,7 +18,7 @@
 ![GitHub Pull Requests](https://img.shields.io/github/issues-pr/SE24Fall/Job-Analyzer)
 ![GitHub Pull Requests Closed](https://img.shields.io/github/issues-pr-closed/SE24Fall/Job-Analyzer)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/TejasPrabhu/Job-Analyzer/unit-tests)
-[![codecov](https://codecov.io/gh/TejasPrabhu/Job-Analyzer/branch/main/graph/badge.svg)](https://codecov.io/gh/TejasPrabhu/Job-Analyzer)
+[![Coverage Status](https://coveralls.io/repos/github/SE24Fall/Job-Analyzer/badge.svg?branch=main)](https://coveralls.io/github/SE24Fall/Job-Analyzer?branch=main)
 [![DOI](https://zenodo.org/badge/555471755.svg)](https://zenodo.org/badge/latestdoi/555471755)
 [![flake8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml)
 [![pyflakes](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml)
