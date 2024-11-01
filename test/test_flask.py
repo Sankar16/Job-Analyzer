@@ -267,7 +267,16 @@ def add_sample_data():
 
     df = pd.DataFrame()
 
+    sequence_document = db.counters.find_one_and_update(
+        {"name": "job-counter"},
+        {"$inc": {"value": 1}},
+        return_document=True
+    )
+
+    next_id = sequence_document["value"]
+
     job_dict = {
+        "_id": next_id
         "Job Title": "Software Engineer, New Grad",
         "Company Name": "IXL Learning",
         "Location": "Raleigh, NC",
