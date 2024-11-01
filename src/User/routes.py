@@ -13,7 +13,7 @@ from src.User.models import User
 def showSignupPage():
     return render_template('signup.html')
 
-    
+
 @app.route('/user/login', methods=['GET'])
 def showLoginPage():
     return render_template('login.html')
@@ -31,9 +31,6 @@ def signup():
     User signup
     '''
     return User().signup()
-    
-
-
 
 
 @app.route('/user/logout')
@@ -66,6 +63,7 @@ def saveResume():
     Saves resume
     '''
     return User().saveResume()
+
 
 @app.route('/download/<fileid>')
 def downloadResume(fileid):

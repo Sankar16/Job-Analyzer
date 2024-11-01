@@ -2,7 +2,7 @@
 Contains user model functions
 '''
 
-from flask import jsonify, request, session, redirect, render_template, send_file, flash
+from flask import jsonify, request, session, redirect, render_template, send_file
 from passlib.hash import pbkdf2_sha256
 from src.app import db
 import uuid
@@ -12,9 +12,10 @@ from bson import ObjectId
 
 fs = gridfs.GridFS(db)
 
+
 class User:
     '''
-    This class handles user session and profile operations 
+    This class handles user session and profile operations
     '''
 
     def startSession(self, user):
@@ -48,8 +49,6 @@ class User:
             self.startSession(user)
             return redirect('/home')
 
-
-
         return (jsonify({'error': 'Signup failed'}), 400)
 
     def logout(self):
@@ -64,11 +63,11 @@ class User:
         Session Login
         '''
         session['isCredentialsWrong'] = False
-        
+
         if (request.form.get('email') == "" or request.form.get('password') == ""):
             session['isCredentialsWrong'] = True
             return redirect('/')
-        
+
         user = db.users.find_one({'email': request.form.get('email')})
         print(user)
         if user and pbkdf2_sha256.verify(str(request.form.get('password')), user['password']):
@@ -99,14 +98,14 @@ class User:
 
             file_id = fs.put(resume, filename=resume.filename)
             file_id_str = str(file_id)
-            
+
             # Update the user in the database
             user_email = session['user']['email']  # Get the current user's email
             db.users.update_one(
                 {'email': user_email},  # Find the user by email
-                {'$set': {'resume_filename': resume.filename, 'resume_fileid' : file_id_str}}  # Update the resume filename
+                {'$set': {'resume_filename': resume.filename, 'resume_fileid': file_id_str}}  # Update the resume filename
             )
-            
+
             # Update the session data with the new filename
             session['user']['resume_filename'] = resume.filename
             session['user']['resume_fileid'] = file_id
