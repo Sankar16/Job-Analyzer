@@ -1,15 +1,207 @@
 from src.app import app, add, mongodb_client
 import pandas as pd
+from werkzeug.datastructures import ImmutableMultiDict
 
 db = mongodb_client.db
 
+client = app.test_client()
+
+def valid_login():
+    email = 'ish2@ish.com'
+    password = 'ish'
+    
+    return client.post('/login', data={
+        "email": email,
+        "password": password
+    }, follow_redirects=True)
+
+def invalid_login():
+    email = 'not_found@not_found.com'
+    password = 'not_found'
+    
+    return client.post('/login', data={
+        "email": email,
+        "password": password
+    }, follow_redirects=True)
+
+def test_user_singup_ip1():
+    email = ""
+    password = ""
+    name = ""
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip2():
+    email = "invlid_email"
+    password = ""
+    name = ""
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip3():
+    email = "invalid_email@"
+    password = ""
+    name = ""
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip4():
+    email = "valid_email@email.com"
+    password = ""
+    name = ""
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip5():
+    email = "valid_email@without_dot_com"
+    password = ""
+    name = ""
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip6():
+    email = "valid_email@email.com"
+    password = "non_empty_password"
+    name = ""
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip7():
+    email = "invalid_email"
+    password = "valid_password"
+    name = ""
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip8():
+    email = "invalid_email"
+    password = "valid_password"
+    name = ""
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip9():
+    email = "valid_email@email.com"
+    password = "valid_password"
+    name = "non_empty_name"
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip10():
+    email = "valid_email@email.com"
+    password = "valid_password"
+    name = "*****************************"
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+
+def test_user_singup_ip11():
+    email = "valid_email@email.com"
+    password = "valid_password"
+    name = "non_empty_name"
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip12():
+    email = "invalid_email"
+    password = "valid_password"
+    name = "************"
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_singup_ip13():
+    email = "invalid_email"
+    password = ""
+    name = "************"
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+
+def test_user_singup_ip14():
+    email = "invalid_email"
+    password = ""
+    name = "************"
+
+    response = app.test_client().post('/user/signup', data={
+        "name": name,
+        "email": email,
+        "password": password
+    })
+
+def test_user_profile_check_name_and_email():
+
+    response = app.test_client().get('/user/profile')
+    assert response.status_code == 200
+    assert b"User Profile" in response.data
+    assert b"Name" in response.data
+    assert b"Email" in response.data
+
+
+def test_user_profile_check_upload_resume():
+
+    response = app.test_client().get('/user/profile')
+    assert response.status_code == 200
+    assert b"Upload Resume" in response.data
 
 def test_home_page():
     """
     This test verifies that the home page works correctly
     """
 
-    response = app.test_client().get('/')
+    response = app.test_client().get('/home')
+    print(response)
     assert response.status_code == 200
     assert b"Welcome to JobCruncher!" in response.data
     assert b"So why use JobCruncher instead?" in response.data

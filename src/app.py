@@ -26,7 +26,6 @@ app.secret_key = b'\xe1\x04B6\x89\xf7\xa0\xab\xd1L\x0e\xfb\x1c\x08"\xf6'
 # client = pymongo.MongoClient('localhost', 27017)
 # db = client.user_system
 
-
 mongo_conn = "mongodb+srv://abivis2k:7aNqw7B9gsAfxznS@job-cluster.ayr8p.mongodb.net/db"
 '''
 Mongo connection string
@@ -169,7 +168,9 @@ def home():
 #     """
 #     session['isCredentialsWrong'] = False
 #     return render_template('login.html')
-@app.route('/joblistings', methods=('GET', 'POST'))
+
+
+@app.route('/joblistings', methods=('GET','POST'))
 def joblistings():
     '''
     This function fetches data from database on the search filter
