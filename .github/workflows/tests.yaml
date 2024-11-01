@@ -22,7 +22,7 @@ jobs:
         with:
           mongodb-version: 6.0
       - name: Run pytest
-        run: |
+        run:
         pytest test/test_flask.py
       - name: Run coverage
         if: success() || failure()
