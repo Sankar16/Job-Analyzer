@@ -2,9 +2,9 @@
 Contains user model functions
 '''
 
-from flask import jsonify, request, session, redirect, render_template, url_for, send_file, flash
+from flask import jsonify, request, session, redirect, render_template, send_file, flash
 from passlib.hash import pbkdf2_sha256
-from src.app import db, mongodb_client
+from src.app import db
 import uuid
 import gridfs
 from io import BytesIO
@@ -60,7 +60,12 @@ class User:
         '''
         Session Login
         '''
-        session['isCredentialsWrong'] = True
+        session['isCredentialsWrong'] = False
+        
+        if (request.form.get('email') == "" or request.form.get('password') == ""):
+            session['isCredentialsWrong'] = True
+            return redirect('/')
+        
         user = db.users.find_one({'email': request.form.get('email')})
         print(user)
         if user and pbkdf2_sha256.verify(str(request.form.get('password')), user['password']):
@@ -71,8 +76,7 @@ class User:
             session['isCredentialsWrong'] = True
             return redirect('/')
         else:
-            session['isCredentialsWrong'] = True
-            flash("something wrong")
+            return redirect('/')
 
     def showProfile(self):
         '''
