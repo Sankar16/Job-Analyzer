@@ -30,6 +30,9 @@ class User:
         '''
         User signup using credentials
         '''
+        if (request.form.get('name') == "" or request.form.get('email') == "" or request.form.get('password') == ""):
+            return redirect('/')
+
         # print(request.form)
         user = {
             '_id': uuid.uuid4().hex,
