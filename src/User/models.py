@@ -86,17 +86,15 @@ class User:
         '''
         if 'resume_file' in request.files:
             resume = request.files['resume_file']
-            # print(resume)
-            # mongodb_client.save_file(resume.filename, resume)
 
             file_id = fs.put(resume, filename=resume.filename)
             file_id_str = str(file_id)
             
             # Update the user in the database
-            user_email = session['user']['email']  # Get the current user's email
+            user_email = session['user']['email']  
             db.users.update_one(
-                {'email': user_email},  # Find the user by email
-                {'$set': {'resume_filename': resume.filename, 'resume_fileid' : file_id_str}}  # Update the resume filename
+                {'email': user_email},  
+                {'$set': {'resume_filename': resume.filename, 'resume_fileid' : file_id_str}}  
             )
             
             # Update the session data with the new filename
