@@ -3,10 +3,9 @@ These are the end points related to the user
 '''
 
 
-import sys
 # sys.path.append('../src')
-from src.app import app, mongodb_client
-from flask import Flask, render_template, request, send_file
+from src.app import app
+from flask import render_template
 from src.User.models import User
 
 
