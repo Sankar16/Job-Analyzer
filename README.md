@@ -20,9 +20,9 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/TejasPrabhu/Job-Analyzer/unit-tests)
 [![codecov](https://codecov.io/gh/TejasPrabhu/Job-Analyzer/branch/main/graph/badge.svg)](https://codecov.io/gh/TejasPrabhu/Job-Analyzer)
 [![DOI](https://zenodo.org/badge/555471755.svg)](https://zenodo.org/badge/latestdoi/555471755)
-[![flake8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml)
-[![pyflakes](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml)
-[![autopep8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/autopep8.yml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/autopep8.yaml)
+[![flake8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml)
+[![pyflakes](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml)
+[![autopep8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/autopep8.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/autopep8.yaml)
 
 
 ## Group 59
