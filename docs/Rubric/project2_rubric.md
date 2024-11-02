@@ -1,5 +1,5 @@
 # Project Rubric
-Total Points from Self-Assessment: 83
+Total Points from Self-Assessment: 98
 
 | Grading Points|Self-Assessment|Links|
 |-----|---------|-----|
