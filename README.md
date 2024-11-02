@@ -34,8 +34,11 @@ So, leave the tedious and monotonous task of looking up the job postings to our 
 
 # So why use JobCruncher instead?
 
-## Project 1 Video
+## Project Video
 https://github.com/user-attachments/assets/511e0804-9d44-47ad-bac3-afaa46f6ca2c
+
+## Project Video
+https://youtu.be/Y0cCEYPqP_k
 
 Unlike many other job portals, JobCruncher is a simple, lightweight, online tool that helps users get clear information about the jobs posted on LinkedIn and further help the user finetune the results.
 
