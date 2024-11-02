@@ -10,7 +10,7 @@ import numpy as np  # noqa: E402
 """
 The module app holds the function related to flask app and database.
 """
-"""Copyright 2022 Tejas Prabhu
+"""Copyright 2024 Ishwarya Anandakrishnan, Abishek Viswanath Pittamandalam, Ashwinkumar Manickam Vaithiyanathan
 
 Use of this source code is governed by an MIT-style
 license that can be found in the LICENSE file or at

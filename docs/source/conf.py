@@ -11,8 +11,8 @@ sys.path.insert(0, os.path.abspath('../../'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Job-Analyzer'
-copyright = '2022, Kartik Rawool, Naveen Jayanna, Samarth Purushothaman, Shubham Loya, Tejas Prabhu'
-author = 'Kartik Rawool, Naveen Jayanna, Samarth Purushothaman, Shubham Loya, Tejas Prabhu'
+copyright = '2024, Ishwarya Anandakrishnan, Abishek Viswanath Pittamandalam, Ashwinkumar Manickam Vaithiyanathan'
+author = 'Ishwarya Anandakrishnan, Abishek Viswanath Pittamandalam, Ashwinkumar Manickam Vaithiyanathan'
 release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
