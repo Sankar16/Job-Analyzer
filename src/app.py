@@ -8,6 +8,7 @@ import re  # noqa: E402
 import numpy as np  # noqa: E402
 
 from flask_mail import Mail, Message
+import random
 """
 The module app holds the function related to flask app and database.
 """
@@ -103,12 +104,32 @@ def Reset_password():
     return render_template("reset-password.html")
 
 
-@app.route('/signup')
+@app.route('/signup', methods =["GET","POST"])
 def sgup():
     """
     Route: '/'
     The index function renders the index.html page.
     """
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        password = pbkdf2_sha256.hash(request.form['password'])
+
+        if db.users.find_one({'email': email}):
+            flash("Email already exists!", "danger")
+            return redirect(url_for('signup'))
+
+        # Generate and store OTP
+        otp = generate_otp()
+        db.users.insert_one({'name': name, 'email': email, 'password': password, 'otp': otp, 'is_verified': False})
+
+        # Send OTP via email
+        msg = Message("Your OTP for Job Analyzer", recipients=[email])
+        msg.body = f"Your OTP is {otp}. Please verify your account."
+        mail.send(msg)
+
+        flash("OTP sent to your email. Please verify your account.", "info")
+        return redirect(url_for('verify_email', email=email))
     return render_template('signup.html')
 
 
@@ -149,6 +170,12 @@ def login():
     if 'isCredentialsWrong' not in session:
         session['isCredentialsWrong'] = False
     return render_template('login.html')
+
+def generate_otp():
+    """
+    Generate a 6-digit OTP.
+    """
+    return str(random.randint(100000, 999999))
 
 
 @app.route('/')
