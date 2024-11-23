@@ -43,6 +43,16 @@ Client connection
 '''
 db = mongodb_client.db
 
+# Configure Flask-Mail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'raghuthamansankar@gmail.com'  # Replace with your email
+app.config['MAIL_PASSWORD'] = 'Radioact@1610'  # Replace with your email password
+app.config['MAIL_DEFAULT_SENDER'] = 'raghuthmansankar@gmail.com'
+
+mail = Mail(app)
+
 
 def login_required(f):
     """
