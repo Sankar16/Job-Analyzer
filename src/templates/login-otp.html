@@ -1,21 +1,21 @@
-{% extends '<base-signup.html' %}
+{% extends 'login.html' %}
 {% block content %}
 <div class="container h-100" style="margin: 50px auto;">
   <div class="row d-flex justify-content-center align-items-center h-100">
     <div class="col-lg-12 col-xl-11">
       <div class="card text-black" style="border-radius: 25px;">
         <div class="card-body p-md-5">
-          <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Verify Email</p>
+          <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Enter OTP</p>
 
-          <form name="verify_form" class="mx-1 mx-md-4" method="post" action="{{ url_for('verify_email', email=email) }}">
+          <form name="otp_form" class="mx-1 mx-md-4" method="post" action="{{ url_for('login_otp') }}">
             <div class="d-flex flex-row align-items-center mb-4">
               <i class="fas fa-key fa-lg me-3 fa-fw"></i>
               <div class="form-outline flex-fill mb-0">
-                <input name="otp" type="text" id="otpInput" class="form-control" />
-                <label class="form-label" for="otpInput">Enter OTP</label>
+                <input name="otp" type="text" id="otpInput" class="form-control" required />
+                <label class="form-label" for="otpInput">OTP</label>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-lg">Verify</button>
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
           </form>
         </div>
       </div>
