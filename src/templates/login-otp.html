@@ -1,4 +1,4 @@
-{% extends 'login.html' %}
+{% extends 'base-login.html' %}
 {% block content %}
 <div class="container h-100" style="margin: 50px auto;">
   <div class="row d-flex justify-content-center align-items-center h-100">
@@ -16,6 +16,10 @@
               </div>
             </div>
             <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+          </form>
+          <form name="resend_otp_form" class="mx-1 mx-md-4 mt-3" method="post" action="{{ url_for('resend_otp') }}">
+            <input type="hidden" name="email" value="{{ email }}">
+            <button type="submit" class="btn btn-secondary btn-sm">Resend OTP</button>
           </form>
         </div>
       </div>

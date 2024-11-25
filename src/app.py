@@ -46,11 +46,11 @@ db = mongodb_client.db
 
 # Configure Flask-Mail
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'raghuthamansankar@gmail.com'  # Replace with your email
-app.config['MAIL_PASSWORD'] = 'Radioact@1610'  # Replace with your email password
-app.config['MAIL_DEFAULT_SENDER'] = 'raghuthamansankar@gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'burnoutapp123@gmail.com'  # Replace with your email
+app.config['MAIL_PASSWORD'] = 'xszyjpklynmwqsgh'  # Replace with your email password
+app.config['MAIL_DEFAULT_SENDER'] = 'burnoutapp123@gmail.com'
 
 mail = Mail(app)
 
@@ -114,7 +114,8 @@ def sgup():
         name = request.form['name'].strip()
         email = request.form['email'].strip().lower()
         password = request.form['password']
-
+        otp = generate_otp()
+        print(otp)
         # Validate input fields
         if not name or not email or not password:
             flash("All fields are required.", "danger")
@@ -127,10 +128,10 @@ def sgup():
 
         # Hash the password
         hashed_password = pbkdf2_sha256.hash(password)
-
+        print("otp",otp)
         # Generate OTP
         otp = generate_otp()
-
+        print(otp)
         # Insert the new user into the database with is_verified=False
         try:
             db.users.insert_one({
@@ -146,7 +147,7 @@ def sgup():
 
         # Send OTP via email for verification
         try:
-            msg = Message("Verify Your Email for Job Analyzer", recipients=[email])
+            msg = Message("Verify Your Email for Job Analyzer", sender=app.config['MAIL_USERNAME'], recipients=[email])
             msg.body = f"Hello {name},\n\nYour OTP for email verification is: {otp}\n\nThank you for registering with Job Analyzer."
             mail.send(msg)
             flash("OTP sent to your email. Please verify your account.", "info")
@@ -157,6 +158,8 @@ def sgup():
             flash("Failed to send OTP. Please try again.", "danger")
             return redirect(url_for('signup'))
     return render_template('signup.html')
+
+
 
 @app.route('/verify_email', methods=['GET', 'POST'])
 def verify_email():
@@ -223,41 +226,65 @@ def login():
     Route: '/'
     The login function renders login.html page.
     """
-    if 'isCredentialsWrong' not in session:
-        session['isCredentialsWrong'] = False
-
+    print("Login page accessed")
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form.get('email', '').strip().lower()
+        password = request.form.get('password', '').strip()
+        
+        if not email or not password:
+            flash("Please enter both email and password.", "warning")
+            return redirect(url_for('login'))
+        
         user = db.users.find_one({'email': email})
-
-        if user and pbkdf2_sha256.verify(password, user['password']):
-            if not user.get('is_verified'):
-                flash("Please verify your email before logging in.", "danger")
-                return redirect(url_for('login'))
-
-            # Generate OTP for login
-            otp = generate_otp()
-            db.users.update_one({'email': email}, {'$set': {'otp': otp}})
-
-            # Send OTP via email
-            try:
-                msg = Message("Your Login OTP for Job Analyzer", recipients=[email])
-                msg.body = f"Hello {user['name']},\n\nYour OTP for logging in is: {otp}\n\nIf you did not attempt to log in, please ignore this email."
-                mail.send(msg)
-            except Exception as e:
-                flash("Failed to send OTP. Please try again.", "danger")
-                return redirect(url_for('login'))
-
-            # Store the email in session for OTP verification
-            session['temp_email'] = email
-            flash("OTP sent to your email. Please enter it below.", "info")
-            return redirect(url_for('login_otp'))
-
+        
+        if user:
+            # Verify the password
+            is_password_correct = pbkdf2_sha256.verify(password, user['password'])
+            print(f"Password verification result: {is_password_correct}")
+            
+            if is_password_correct:
+                if not user.get('is_verified'):
+                    flash("Please verify your email before logging in.", "danger")
+                    return redirect(url_for('login'))
+                
+                # Generate OTP for login
+                print("Generating OTP for login")
+                otp = generate_otp()
+                db.users.update_one({'email': email}, {'$set': {'otp': otp}})
+                print(f"Generated OTP: {otp}")
+                
+                # Send OTP via email
+                try:
+                    msg = Message(
+                        subject="Your Login OTP for Job Analyzer",
+                        sender=app.config['MAIL_USERNAME'],
+                        recipients=[email]
+                    )
+                    msg.body = (
+                        f"Hello {user['name']},\n\n"
+                        f"Your OTP for logging in is: {otp}\n\n"
+                        "If you did not attempt to log in, please ignore this email."
+                    )
+                    mail.send(msg)
+                    print("OTP email sent successfully")
+                except Exception as e:
+                    print(f"Error sending OTP email: {e}")
+                    flash("Failed to send OTP. Please try again.", "danger")
+                    return redirect(url_for('login'))
+                
+                # Store the email in session for OTP verification
+                session['temp_email'] = email
+                flash("OTP sent to your email. Please enter it below.", "info")
+                return redirect(url_for('login_otp'))
+            else:
+                flash("Invalid email or password. Please try again.", "danger")
         else:
             flash("Invalid email or password. Please try again.", "danger")
-            session['isCredentialsWrong'] = True
-            return redirect(url_for('login'))
+        
+        # Handle incorrect credentials
+        session['isCredentialsWrong'] = True
+        return redirect(url_for('login'))
+    
     return render_template('login.html')
 
 def generate_otp():
@@ -272,33 +299,85 @@ def login_otp():
     Route: '/login_otp'
     Handles OTP verification during login.
     """
-    email = session.get('temp_email')
-
+    email = session.get('temp_email', '').strip().lower()
+    
     if not email:
         flash("Session expired. Please log in again.", "danger")
         return redirect(url_for('login'))
-
+    
+    user = db.users.find_one({'email': email})
+    
+    if not user:
+        flash("User not found.", "danger")
+        return redirect(url_for('login'))
+    
     if request.method == 'POST':
-        entered_otp = request.form['otp']
-        user = db.users.find_one({'email': email})
-
-        if user and user.get('otp') == entered_otp:
+        entered_otp = request.form.get('otp', '').strip()
+        print(f"Entered OTP: {entered_otp}")
+        print(f"Stored OTP: {user.get('otp')}")
+        
+        if user.get('otp') == entered_otp:
             # OTP is correct; log the user in
-            session['logged_in'] = True
-            session['user'] = {
-                '_id': str(user['_id']),
-                'name': user['name'],
-                'email': user['email']
-            }
-            # Optionally, remove OTP from the database
-            db.users.update_one({'email': email}, {'$unset': {'otp': ""}})
-            session.pop('temp_email', None)
-            flash("Logged in successfully!", "success")
-            return redirect(url_for('home'))
+            try:
+                session['logged_in'] = True
+                session['user'] = {
+                    '_id': str(user['_id']),
+                    'name': user['name'],
+                    'email': user['email']
+                }
+                # Remove OTP from the database
+                db.users.update_one({'email': email}, {'$unset': {'otp': ""}})
+                session.pop('temp_email', None)
+                print(f"User {email} logged in successfully.")
+                flash("Logged in successfully!", "success")
+                return redirect(url_for('home'))
+            except Exception as e:
+                print(f"Error during user login: {e}")
+                flash("An error occurred during login. Please try again.", "danger")
         else:
             flash("Invalid OTP. Please try again.", "danger")
-
+    
     return render_template('login-otp.html', email=email)
+
+
+@app.route('/resend_otp', methods=['POST'])
+def resend_otp():
+    """
+    Route: '/resend_otp'
+    Allows users to request a new OTP.
+    """
+    email = request.form.get('email', '').strip().lower()
+    user = db.users.find_one({'email': email})
+    
+    if user and not user.get('is_verified'):
+        # Generate a new OTP
+        otp = generate_otp()
+        db.users.update_one({'email': email}, {'$set': {'otp': otp}})
+        print(f"Generated new OTP: {otp}")
+        
+        # Send OTP via email
+        try:
+            msg = Message(
+                subject="Your New OTP for Job Analyzer",
+                sender=app.config['MAIL_DEFAULT_SENDER'],
+                recipients=[email]
+            )
+            msg.body = (
+                f"Hello {user['name']},\n\n"
+                f"Your new OTP for logging in is: {otp}\n\n"
+                "If you did not attempt to log in, please ignore this email."
+            )
+            mail.send(msg)
+            print("New OTP email sent successfully")
+            flash("A new OTP has been sent to your email.", "info")
+        except Exception as e:
+            print(f"Error sending new OTP email: {e}")
+            flash("Failed to resend OTP. Please try again.", "danger")
+    else:
+        flash("Invalid request. Please try again.", "danger")
+    
+    return redirect(url_for('login_otp'))
+
 
 
 @app.route('/')
