@@ -35,7 +35,7 @@ mongo_conn = "mongodb+srv://abivis2k:7aNqw7B9gsAfxznS@job-cluster.ayr8p.mongodb.
 '''
 Mongo connection string
 '''
-mongo_params = "?tlsAllowInvalidCertificates=true, retryWrites=true, w=majority"
+mongo_params = "?tlsAllowInvalidCertificates=true&retryWrites=true&w=majority"
 '''
 Mongo parameters
 '''
