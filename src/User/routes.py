@@ -57,12 +57,29 @@ def verify_otp():
     return User().verify_otp()
 
 
+@app.route('/user/resend_login_otp', methods=['GET'])
+def resend_login_otp():
+    '''
+    Resend the OTP code during login verification
+    '''
+    return User().resend_login_otp()
+
+
 @app.route('/user/verify_signup_otp', methods=['GET', 'POST'])
 def verify_signup_otp():
     '''
     Handle OTP verification after signup
     '''
     return User().verify_signup_otp()
+
+
+@app.route('/user/resend_signup_otp', methods=['GET'])
+def resend_signup_otp():
+    '''
+    Resend the OTP code during signup verification
+    '''
+    return User().resend_signup_otp()
+
 
 
 @app.route('/user/profile', methods=['GET'])

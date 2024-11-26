@@ -98,6 +98,33 @@ class User:
                 return render_template('verify_signup_otp.html', error=error)
 
 
+    def resend_signup_otp(self):
+        '''
+        Resend the OTP code to the user's email during signup verification
+        '''
+        email = session.get('user_email')
+
+        if not email:
+            return redirect('/')
+
+        user = db.users.find_one({'email': email})
+        if user:
+            # Generate new OTP
+            import random
+            otp = str(random.randint(100000, 999999))  # 6-digit OTP
+
+            # Update OTP in the user's record
+            db.users.update_one({'email': email}, {'$set': {'otp': otp}})
+
+            # Send email with OTP
+            self.send_otp_email(user['email'], otp)
+
+            # Pass a success message to the template
+            success = 'A new OTP has been sent to your email.'
+            return render_template('verify_signup_otp.html', success=success)
+        else:
+            return redirect('/')
+
 
     def logout(self):
         '''
@@ -207,6 +234,34 @@ class User:
                 # OTP is incorrect
                 error = 'Invalid OTP. Please try again.'
                 return render_template('verify_otp.html', error=error)
+            
+
+    def resend_login_otp(self):
+        '''
+        Resend the OTP code to the user's email during login verification
+        '''
+        email = session.get('user_email')
+
+        if not email:
+            return redirect('/')
+
+        user = db.users.find_one({'email': email})
+        if user:
+            # Generate new OTP
+            import random
+            otp = str(random.randint(100000, 999999))  # 6-digit OTP
+
+            # Update OTP in the user's record
+            db.users.update_one({'email': email}, {'$set': {'otp': otp}})
+
+            # Send email with OTP
+            self.send_otp_email(user['email'], otp)
+
+            # Pass a success message to the template
+            success = 'A new OTP has been sent to your email.'
+            return render_template('verify_otp.html', success=success)
+        else:
+            return redirect('/')
 
 
     def showProfile(self):
