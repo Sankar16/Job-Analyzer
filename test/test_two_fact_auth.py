@@ -12,7 +12,7 @@ import sys
 import os
 
 # Add the project root directory to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))  # noqa 
 
 
 class TestTwoFactorAuth(unittest.TestCase):
@@ -36,7 +36,7 @@ class TestTwoFactorAuth(unittest.TestCase):
 
     def tearDown(self):
         # Remove the test user from the database
-        db.users.delete_many({'email': {'$in': [self.test_user_email, 'newuser@example.com', 'unverified@example.com']}})
+        db.users.delete_many({'email': {'$in': [self.test_user_email, 'newuser@example.com', 'unverified@example.com']}}) # noqa
         # Clear session data
         with self.app.session_transaction() as sess:
             sess.clear()

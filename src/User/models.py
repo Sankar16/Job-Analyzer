@@ -17,7 +17,6 @@ class User:
     '''
     This class handles user session and profile operations
     '''
-
     def startSession(self, user):
         '''
         Start the user session
@@ -26,7 +25,6 @@ class User:
         session['logged_in'] = True
         session['user'] = user
         return (jsonify(user), 200)
-
 
     def signup(self):
         '''
@@ -64,7 +62,6 @@ class User:
             return redirect('/user/verify_signup_otp')
 
         return jsonify({'error': 'Signup failed'}), 400
-    
 
     def verify_signup_otp(self):
         '''
@@ -97,7 +94,6 @@ class User:
                 error = 'Invalid OTP. Please try again.'
                 return render_template('verify_signup_otp.html', error=error)
 
-
     def resend_signup_otp(self):
         '''
         Resend the OTP code to the user's email during signup verification
@@ -125,14 +121,12 @@ class User:
         else:
             return redirect('/')
 
-
     def logout(self):
         '''
         Session Logout
         '''
         session.clear()
         return redirect('/')
-
 
     def login(self):
         '''
@@ -169,7 +163,6 @@ class User:
         else:
             return redirect('/')
 
-
     def send_otp_email(self, email, otp):
         '''
         Send an email with the OTP code using SSL
@@ -204,7 +197,6 @@ class User:
         except Exception as e:
             print('Failed to send email:', e)
 
-
     def verify_otp(self):
         '''
         Verify the OTP code entered by the user
@@ -234,7 +226,6 @@ class User:
                 # OTP is incorrect
                 error = 'Invalid OTP. Please try again.'
                 return render_template('verify_otp.html', error=error)
-            
 
     def resend_login_otp(self):
         '''
@@ -263,7 +254,6 @@ class User:
         else:
             return redirect('/')
 
-
     def showProfile(self):
         '''
         Renders User Profile
@@ -282,10 +272,10 @@ class User:
             file_id_str = str(file_id)
 
             # Update the user in the database
-            user_email = session['user']['email']  
+            user_email = session['user']['email']
             db.users.update_one(
-                {'email': user_email},  
-                {'$set': {'resume_filename': resume.filename, 'resume_fileid' : file_id_str}}  
+                {'email': user_email},
+                {'$set': {'resume_filename': resume.filename, 'resume_fileid': file_id_str}}
             )
 
             # Update the session data with the new filename
