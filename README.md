@@ -23,7 +23,7 @@
 [![flake8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml)
 [![pyflakes](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml)
 [![autopep8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/autopep8.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/autopep8.yaml)
-
+[![CodeQL Advanced](https://github.com/Sankar16/Job-Analyzer/actions/workflows/codeql.yml/badge.svg)](https://github.com/Sankar16/Job-Analyzer/actions/workflows/codeql.yml)
 
 ## Group 59
 Juggling multiple assignments, quizzes, projects, presentations, and clutching the deadlines every week? Feel like you have no time to watch your favorite series or sports team play let alone search for job posting on a day-to-day basis? Here comes JobCruncher.
