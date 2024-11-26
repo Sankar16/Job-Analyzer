@@ -11,6 +11,7 @@ from passlib.hash import pbkdf2_sha256
 from pandas import DataFrame  # noqa: E402
 import re  # noqa: E402
 import numpy as np  # noqa: E402
+from flask_mail import Mail, Message
 
 """
 The module app holds the function related to flask app and database.
@@ -47,6 +48,7 @@ Client connection
 '''
 db = mongodb_client.db
 
+app.register_blueprint(resume_analyzer, url_prefix='/resume')
 
 def login_required(f):
     """
@@ -429,6 +431,7 @@ def notifications():
     return render_template('enable_notifications.html')
 
 
+
 def send_notification_email(jobs_list):
     sender = 'burnoutapp123@gmail.com'
     password = 'xszyjpklynmwqsgh'
@@ -456,10 +459,6 @@ def send_notification_email(jobs_list):
         Industries: {industries}
         Date Posted: {date_posted}
         Job Description: {job_description[:200]}...
-<<<<<<< HEAD
-=======
-
->>>>>>> 1baf3cb (add tests)
         """
 
     body += "\nFor more details, please check the job postings on our platform."
