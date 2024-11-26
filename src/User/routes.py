@@ -57,6 +57,13 @@ def verify_otp():
     return User().verify_otp()
 
 
+@app.route('/user/verify_signup_otp', methods=['GET', 'POST'])
+def verify_signup_otp():
+    '''
+    Handle OTP verification after signup
+    '''
+    return User().verify_signup_otp()
+
 
 @app.route('/user/profile', methods=['GET'])
 def showUserProfile():

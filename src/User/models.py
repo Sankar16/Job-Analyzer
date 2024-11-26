@@ -27,29 +27,77 @@ class User:
         session['user'] = user
         return (jsonify(user), 200)
 
+
     def signup(self):
         '''
-        User signup using credentials
+        User signup with email verification
         '''
-        if (request.form.get('name') == "" or request.form.get('email') == "" or request.form.get('password') == ""):
+        if not request.form.get('name') or not request.form.get('email') or not request.form.get('password'):
             return redirect('/')
 
-        # print(request.form)
         user = {
             '_id': uuid.uuid4().hex,
             'name': request.form.get('name'),
             'email': request.form.get('email'),
-            'password': request.form.get('password')}
-        user['password'] = pbkdf2_sha256.hash(user['password'])
+            'password': pbkdf2_sha256.hash(request.form.get('password')),
+            'is_verified': False
+        }
+
         if db.users.find_one({'email': user['email']}):
-            return (jsonify({'error': 'Email address already in use'}),
-                    400)
+            return jsonify({'error': 'Email address already in use'}), 400
 
         if db.users.insert_one(user):
-            self.startSession(user)
-            return redirect('/home')
+            # Generate OTP
+            import random
+            otp = str(random.randint(100000, 999999))  # 6-digit OTP
 
-        return (jsonify({'error': 'Signup failed'}), 400)
+            # Save OTP in user's record
+            db.users.update_one({'email': user['email']}, {'$set': {'otp': otp}})
+
+            # Send email with OTP
+            self.send_otp_email(user['email'], otp)
+
+            # Save user's email in session
+            session['user_email'] = user['email']
+
+            # Redirect to OTP verification page
+            return redirect('/user/verify_signup_otp')
+
+        return jsonify({'error': 'Signup failed'}), 400
+    
+
+    def verify_signup_otp(self):
+        '''
+        Verify the OTP code entered by the user during signup
+        '''
+        if request.method == 'GET':
+            return render_template('verify_signup_otp.html')
+        else:
+            # POST request: process the OTP entered by the user
+            entered_otp = request.form.get('otp')
+            email = session.get('user_email')
+
+            if not email:
+                return redirect('/')
+
+            user = db.users.find_one({'email': email})
+            if user and 'otp' in user and user['otp'] == entered_otp:
+                # OTP is correct
+                # Remove the otp from the user's record
+                db.users.update_one({'email': email}, {'$unset': {'otp': ''}})
+                # Set is_verified to True
+                db.users.update_one({'email': email}, {'$set': {'is_verified': True}})
+                # Start the session
+                self.startSession(user)
+                # Remove user_email from session
+                session.pop('user_email', None)
+                return redirect('/home')
+            else:
+                # OTP is incorrect
+                error = 'Invalid OTP. Please try again.'
+                return render_template('verify_signup_otp.html', error=error)
+
+
 
     def logout(self):
         '''
