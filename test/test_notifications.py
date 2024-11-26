@@ -1,7 +1,7 @@
 """Unit tests for notification-related functionality."""
-import pytest
 from unittest import mock
 from unittest.mock import patch, MagicMock
+import pytest
 import pandas as pd
 from src.app import app, send_notification_email, run_periodically
 
