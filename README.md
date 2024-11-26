@@ -18,12 +18,12 @@
 ![GitHub Pull Requests](https://img.shields.io/github/issues-pr/SE24Fall/Job-Analyzer)
 ![GitHub Pull Requests Closed](https://img.shields.io/github/issues-pr-closed/SE24Fall/Job-Analyzer)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/TejasPrabhu/Job-Analyzer/unit-tests)
-[![Coverage Status](https://coveralls.io/repos/github/SE24Fall/Job-Analyzer/badge.svg?branch=main)](https://coveralls.io/github/SE24Fall/Job-Analyzer?branch=main)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14027279.svg)](https://doi.org/10.5281/zenodo.14027279)
 [![flake8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/flake8.yaml)
 [![pyflakes](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/pyflakes.yaml)
 [![autopep8](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/autopep8.yaml/badge.svg)](https://github.com/SE24Fall/Job-Analyzer/actions/workflows/autopep8.yaml)
 [![CodeQL Advanced](https://github.com/Sankar16/Job-Analyzer/actions/workflows/codeql.yml/badge.svg)](https://github.com/Sankar16/Job-Analyzer/actions/workflows/codeql.yml)
+[![Code Coverage](https://github.com/Sankar16/Job-Analyzer/actions/workflows/code_coverage.yml/badge.svg)](https://github.com/Sankar16/Job-Analyzer/actions/workflows/code_coverage.yml)
 
 ## Group 59
 Juggling multiple assignments, quizzes, projects, presentations, and clutching the deadlines every week? Feel like you have no time to watch your favorite series or sports team play let alone search for job posting on a day-to-day basis? Here comes JobCruncher.
