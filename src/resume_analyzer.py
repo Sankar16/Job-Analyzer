@@ -9,14 +9,13 @@ import re
 from collections import Counter
 import docx
 import pdfplumber
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for
+from flask import Blueprint, request, render_template
 from werkzeug.utils import secure_filename
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Blueprint for the resume analyzer
 resume_analyzer = Blueprint('resume_analyzer', __name__)
-
 # Configuration for file uploads
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = {'pdf', 'docx'}
