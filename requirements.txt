@@ -59,3 +59,4 @@ zipp==3.8.1
 dnspython==1.16.0
 pymongo[srv]
 pytest-cov==3.0.0
+python-docx
