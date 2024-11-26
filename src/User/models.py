@@ -2,13 +2,18 @@
 Contains user model functions
 '''
 
-from flask import jsonify, request, session, redirect, render_template, send_file
-from passlib.hash import pbkdf2_sha256
-from src.app import db
+from io import BytesIO
+import smtplib
+from email.mime.text import MIMEText
+import ssl
+import random
 import uuid
 import gridfs
-from io import BytesIO
+
+from flask import jsonify, request, session, redirect, render_template, send_file # noqa
+from passlib.hash import pbkdf2_sha256
 from bson import ObjectId
+from src.app import db
 
 fs = gridfs.GridFS(db)
 
@@ -17,8 +22,7 @@ class User:
     '''
     This class handles user session and profile operations
     '''
-
-    def startSession(self, user):
+    def start_session(self, user):
         '''
         Start the user session
         '''
@@ -29,27 +33,96 @@ class User:
 
     def signup(self):
         '''
-        User signup using credentials
+        User signup with email verification
         '''
-        if (request.form.get('name') == "" or request.form.get('email') == "" or request.form.get('password') == ""):
+        if not all([
+            request.form.get('name'),
+            request.form.get('email'),
+            request.form.get('password')
+        ]):
             return redirect('/')
 
-        # print(request.form)
         user = {
             '_id': uuid.uuid4().hex,
             'name': request.form.get('name'),
             'email': request.form.get('email'),
-            'password': request.form.get('password')}
-        user['password'] = pbkdf2_sha256.hash(user['password'])
+            'password': pbkdf2_sha256.hash(request.form.get('password')),
+            'is_verified': False
+        }
+
         if db.users.find_one({'email': user['email']}):
-            return (jsonify({'error': 'Email address already in use'}),
-                    400)
+            return jsonify({'error': 'Email address already in use'}), 400
 
         if db.users.insert_one(user):
-            self.startSession(user)
-            return redirect('/home')
+            # Generate OTP
+            otp = str(random.randint(100000, 999999))  # 6-digit OTP
 
-        return (jsonify({'error': 'Signup failed'}), 400)
+            # Save OTP in user's record
+            db.users.update_one({'email': user['email']}, {'$set': {'otp': otp}})
+
+            # Send email with OTP
+            self.send_otp_email(user['email'], otp)
+
+            # Save user's email in session
+            session['user_email'] = user['email']
+
+            # Redirect to OTP verification page
+            return redirect('/user/verify_signup_otp')
+
+        return jsonify({'error': 'Signup failed'}), 400
+
+    def verify_signup_otp(self):
+        '''
+        Verify the OTP code entered by the user during signup
+        '''
+        if request.method == 'GET':
+            return render_template('verify_signup_otp.html')
+        # POST request: process the OTP entered by the user
+        entered_otp = request.form.get('otp')
+        email = session.get('user_email')
+        if not email:
+            return redirect('/')
+
+        user = db.users.find_one({'email': email})
+        if user and 'otp' in user and user['otp'] == entered_otp:
+            # OTP is correct
+            # Remove the otp from the user's record
+            db.users.update_one({'email': email}, {'$unset': {'otp': ''}})
+            # Set is_verified to True
+            db.users.update_one({'email': email}, {'$set': {'is_verified': True}})
+            # Start the session
+            self.start_session(user)
+            # Remove user_email from session
+            session.pop('user_email', None)
+            return redirect('/home')
+        # OTP is incorrect
+        error = 'Invalid OTP. Please try again.'
+        return render_template('verify_signup_otp.html', error=error)
+
+    def resend_signup_otp(self):
+        '''
+        Resend the OTP code to the user's email during signup verification
+        '''
+        email = session.get('user_email')
+
+        if not email:
+            return redirect('/')
+
+        user = db.users.find_one({'email': email})
+        if user:
+            # Generate new OTP
+            otp = str(random.randint(100000, 999999))  # 6-digit OTP
+
+            # Update OTP in the user's record
+            db.users.update_one({'email': email}, {'$set': {'otp': otp}})
+
+            # Send email with OTP
+            self.send_otp_email(user['email'], otp)
+
+            # Pass a success message to the template
+            success = 'A new OTP has been sent to your email.'
+            return render_template('verify_signup_otp.html', success=success)
+        return redirect('/')
 
     def logout(self):
         '''
@@ -60,25 +133,117 @@ class User:
 
     def login(self):
         '''
-        Session Login
+        Session Login with 2FA via email OTP
         '''
         session['isCredentialsWrong'] = False
 
-        if (request.form.get('email') == "" or request.form.get('password') == ""):
+        if not request.form.get('email') or not request.form.get('password'):
             session['isCredentialsWrong'] = True
             return redirect('/')
 
         user = db.users.find_one({'email': request.form.get('email')})
         print(user)
-        if user and pbkdf2_sha256.verify(str(request.form.get('password')), user['password']):
-            self.startSession(user)
-            session['isCredentialsWrong'] = False
-            return redirect('/home')
-        elif user and not pbkdf2_sha256.verify(str(request.form.get('password')), user['password']):
+        if user and pbkdf2_sha256.verify(request.form.get('password'), user['password']):
+            # Generate OTP
+            otp = str(random.randint(100000, 999999))  # 6-digit OTP
+
+            # Save OTP in the user's record
+            db.users.update_one({'email': user['email']}, {'$set': {'otp': otp}})
+
+            # Send email with OTP
+            self.send_otp_email(user['email'], otp)
+
+            # Save user's email in session
+            session['user_email'] = user['email']
+
+            # Redirect to OTP verification page
+            return redirect('/user/verify_otp')
+        if user:
             session['isCredentialsWrong'] = True
             return redirect('/')
-        else:
+        return redirect('/')
+
+    def send_otp_email(self, email, otp):
+        '''
+        Send an email with the OTP code using SSL
+        '''
+        # Set up your SMTP server settings
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 465  # SSL port
+        smtp_username = 'burnoutapp123@gmail.com'  # Replace with your email
+        smtp_password = 'xszyjpklynmwqsgh'   # Replace with your email password or app password
+
+        # Create the email content
+        subject = 'Your OTP Code'
+        body = f'Your OTP code is: {otp}'
+
+        msg = MIMEText(body)
+        msg['Subject'] = subject
+        msg['From'] = smtp_username
+        msg['To'] = email
+
+        # Create SSL context
+        context = ssl.create_default_context()
+
+        # Send the email using SMTP_SSL
+        try:
+            with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context) as server:
+                server.login(smtp_username, smtp_password)
+                server.sendmail(smtp_username, email, msg.as_string())
+        except Exception as e:
+            print('Failed to send email:', e)
+
+    def verify_otp(self):
+        '''
+        Verify the OTP code entered by the user
+        '''
+        if request.method == 'GET':
+            return render_template('verify_otp.html')
+        # POST request: process the OTP entered by the user
+        entered_otp = request.form.get('otp')
+        email = session.get('user_email')
+
+        if not email:
             return redirect('/')
+
+        user = db.users.find_one({'email': email})
+        if user and 'otp' in user and user['otp'] == entered_otp:
+            # OTP is correct
+            # Remove the otp from the user's record
+            db.users.update_one({'email': email}, {'$unset': {'otp': ''}})
+             # Start the session
+            self.start_session(user)
+            # Remove user_email from session
+            session.pop('user_email', None)
+            return redirect('/home')
+        # OTP is incorrect
+        error = 'Invalid OTP. Please try again.'
+        return render_template('verify_otp.html', error=error)
+
+    def resend_login_otp(self):
+        '''
+        Resend the OTP code to the user's email during login verification
+        '''
+        email = session.get('user_email')
+
+        if not email:
+            return redirect('/')
+
+        user = db.users.find_one({'email': email})
+        if user:
+            # Generate new OTP
+            otp = str(random.randint(100000, 999999))  # 6-digit OTP
+
+            # Update OTP in the user's record
+            db.users.update_one({'email': email}, {'$set': {'otp': otp}})
+
+            # Send email with OTP
+            self.send_otp_email(user['email'], otp)
+
+            # Pass a success message to the template
+            success = 'A new OTP has been sent to your email.'
+            return render_template('verify_otp.html', success=success)
+        return redirect('/')
 
     def showProfile(self):
         '''
@@ -87,7 +252,7 @@ class User:
         user = session['user']
         return render_template('user_profile.html', user=user)
 
-    def saveResume(self):
+    def save_resume(self):
         '''
         Saves resume and renders User profile
         '''
@@ -98,10 +263,10 @@ class User:
             file_id_str = str(file_id)
 
             # Update the user in the database
-            user_email = session['user']['email']  
+            user_email = session['user']['email']
             db.users.update_one(
-                {'email': user_email},  
-                {'$set': {'resume_filename': resume.filename, 'resume_fileid' : file_id_str}}  
+                {'email': user_email},
+                {'$set': {'resume_filename': resume.filename, 'resume_fileid': file_id_str}}
             )
 
             # Update the session data with the new filename
@@ -110,6 +275,11 @@ class User:
 
         return render_template('user_profile.html', user=session['user'])
 
-    def downloadResume(self, fileid):
+    def download_resume(self, fileid):
         file_data = fs.get(ObjectId(fileid))
-        return send_file(BytesIO(file_data.read()), mimetype='application/pdf', as_attachment=False, download_name=file_data.filename)
+        return send_file(
+            BytesIO(file_data.read()),
+            mimetype='application/pdf',
+            as_attachment=False,
+            download_name=file_data.filename
+        )

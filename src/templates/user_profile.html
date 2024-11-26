@@ -23,7 +23,7 @@
 
                   <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">User Profile</p>
 
-                  <form name="user_profile" class="mx-1 mx-md-4" action="/user/saveResume" method="POST"
+                  <form name="user_profile" class="mx-1 mx-md-4" action="/user/save_resume" method="POST"
                     enctype="multipart/form-data">
                     <a href="{{ url_for('home') }}">
                       Back to home
@@ -64,7 +64,7 @@
                   {% if user.resume_fileid %}
                   <div class="mt-4">
                     <p><strong>Uploaded Resume:</strong></p>
-                    <a href="{{ url_for('downloadResume', fileid=user.resume_fileid) }}" target="_blank">
+                    <a href="{{ url_for('download_resume', fileid=user.resume_fileid) }}" target="_blank">
                       View {{ user.resume_filename }}
                     </a>
                   </div>

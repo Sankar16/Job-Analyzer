@@ -49,6 +49,39 @@ def loginUser():
     return User().login()
 
 
+@app.route('/user/verify_otp', methods=['GET', 'POST'])
+def verify_otp():
+    '''
+    Handle OTP verification
+    '''
+    return User().verify_otp()
+
+
+@app.route('/user/resend_login_otp', methods=['GET'])
+def resend_login_otp():
+    '''
+    Resend the OTP code during login verification
+    '''
+    return User().resend_login_otp()
+
+
+@app.route('/user/verify_signup_otp', methods=['GET', 'POST'])
+def verify_signup_otp():
+    '''
+    Handle OTP verification after signup
+    '''
+    return User().verify_signup_otp()
+
+
+@app.route('/user/resend_signup_otp', methods=['GET'])
+def resend_signup_otp():
+    '''
+    Resend the OTP code during signup verification
+    '''
+    return User().resend_signup_otp()
+
+
+
 @app.route('/user/profile', methods=['GET'])
 def showUserProfile():
     '''
@@ -57,20 +90,20 @@ def showUserProfile():
     return User().showProfile()
 
 
-@app.route('/user/saveResume', methods=['POST'])
-def saveResume():
+@app.route('/user/save_resume', methods=['POST'])
+def save_resume():
     '''
     Saves resume
     '''
-    return User().saveResume()
+    return User().save_resume()
 
 
 @app.route('/download/<fileid>')
-def downloadResume(fileid):
+def download_resume(fileid):
     '''
     Downloads a file from GridFS
     '''
-    return User().downloadResume(fileid)
+    return User().download_resume(fileid)
 
 
 @app.route('/healthcheck', methods=['GET'])
