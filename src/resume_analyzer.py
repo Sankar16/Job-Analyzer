@@ -6,10 +6,10 @@ job descriptions to calculate ATS (Applicant Tracking System) and matching score
 
 import os
 import re
-from collections import Counter  # Standard library imports should come first
+from collections import Counter
 import docx
 import pdfplumber
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for
 from werkzeug.utils import secure_filename
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -112,14 +112,18 @@ def calculate_matching_score(resume_text, job_description):
     return similarity[0][0] * 100
 
 
+@resume_analyzer.route('/analyzer', methods=['GET'])
+def analyzer_page():
+    """
+    Render the Resume Analyzer page.
+    """
+    return render_template('resume_analyzer.html')
+
+
 @resume_analyzer.route('/analyze-resume', methods=['POST'])
 def analyze_resume():
     """
-    API endpoint to analyze resumes and calculate ATS and matching scores.
-
-    Returns:
-        Response: JSON response containing ATS score, matching score,
-                  and job name if successful.
+    Handle the resume analysis and render the results page.
     """
     # Validate the request
     if (
@@ -127,9 +131,10 @@ def analyze_resume():
         or 'job_name' not in request.form
         or 'job_description' not in request.form
     ):
-        return jsonify({
-            "error": "Missing required fields: resume, job_name, or job_description"
-        }), 400
+        return render_template(
+            'resume_analyzer.html',
+            error="All fields are required. Please fill out all fields and try again."
+        )
 
     job_name = request.form['job_name']
     job_description = request.form['job_description']
@@ -137,7 +142,10 @@ def analyze_resume():
 
     # Validate the file type
     if not file or not allowed_file(file.filename):
-        return jsonify({"error": "Invalid resume file. Only PDF or DOCX allowed."}), 400
+        return render_template(
+            'resume_analyzer.html',
+            error="Invalid resume file. Only PDF or DOCX files are allowed."
+        )
 
     # Save the uploaded file
     filename = secure_filename(file.filename)
@@ -158,18 +166,18 @@ def analyze_resume():
         ats_score = calculate_ats_score(resume_words, job_words)
         matching_score = calculate_matching_score(resume_text, job_description)
 
-        # Prepare and return response
-        response = {
-            "job_name": job_name,
-            "ats_score": f"{round(ats_score, 2)}/100",
-            "matching_score": f"{round(matching_score, 2)}/100"
-        }
-        return jsonify(response), 200
-
+        # Render results page
+        return render_template(
+            'resume_results.html',
+            job_name=job_name,
+            ats_score=f"{round(ats_score, 2)}%",
+            matching_score=f"{round(matching_score, 2)}%"
+        )
     except (ValueError, FileNotFoundError) as error:
-        # Handle exceptions gracefully
-        return jsonify({"error": str(error)}), 500
-
+        return render_template(
+            'resume_analyzer.html',
+            error=f"An error occurred during analysis: {str(error)}"
+        )
     finally:
         # Ensure the uploaded file is removed
         if os.path.exists(filepath):
