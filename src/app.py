@@ -2,7 +2,6 @@ from email.message import EmailMessage
 from functools import wraps
 import smtplib
 import ssl
-import smtplib
 import threading
 import time
 from flask import Flask, render_template, request, session, redirect, url_for, flash  # noqa: E402
