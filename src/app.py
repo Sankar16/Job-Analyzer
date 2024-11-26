@@ -1,17 +1,17 @@
 from email.message import EmailMessage
 from functools import wraps
-from json import dumps
-import json
 import smtplib
 import ssl
-from flask import Flask, render_template, request, session, redirect, url_for, flash, jsonify  # noqa: E402
+import smtplib
+import threading
+import time
+from flask import Flask, render_template, request, session, redirect, url_for, flash  # noqa: E402
 from flask_pymongo import PyMongo  # noqa: E402
 
 from passlib.hash import pbkdf2_sha256
 from pandas import DataFrame  # noqa: E402
 import re  # noqa: E402
 import numpy as np  # noqa: E402
-from flask_mail import Mail, Message
 
 """
 The module app holds the function related to flask app and database.
@@ -384,21 +384,53 @@ def read_from_db(request, db):
 
     return DataFrame(list(data))
 
-@app.route('/toggle-on', methods=['POST'])
-def toggle_on():
-    print("Toggle switch is now on!")
-    jobs_list = list(db.jobs.find())
-    if jobs_list is None:
-        print("No Jobs")
 
-    send_notification_email(jobs_list)
-    # for job in jobs_list:
-    #     send_notification_email(job)
-    #     break
-    return jsonify({'message': 'Function executed successfully'}), 200
+_periodic_thread = None
+_thread_lock = threading.Lock()
+
+
+def run_periodically(interval, func, *args, **kwargs):
+    """
+    Ensure a single thread runs a function periodically.
+    
+    Parameters:
+        interval (int): The interval in seconds between function calls.
+        func (callable): The function to run.
+        *args: Positional arguments for the function.
+        **kwargs: Keyword arguments for the function.
+    """
+    global _periodic_thread
+
+    def wrapper():
+        while True:
+            func(*args, **kwargs)
+            time.sleep(interval)
+
+    with _thread_lock:
+        if _periodic_thread is None or not _periodic_thread.is_alive():
+            # Create and start the thread
+            _periodic_thread = threading.Thread(target=wrapper, daemon=True)
+            _periodic_thread.start()
+
+
+@app.route('/notificaionconfigured', methods=('GET', 'POST'))
+def notificaionconfigured():
+    jobs_df = read_from_db(request, db)
+    print(jobs_df)
+    jobs_dict = jobs_df.to_dict(orient="records")
+    if not jobs_dict:
+        print("No Jobs")
+    else:
+        run_periodically(60, send_notification_email, jobs_dict)
+    return render_template('notification_configured.html')
+
+@app.route('/notifications', methods=('GET', 'POST'))
+def notifications():
+    print("Toggle switch is now on!")
+    return render_template('enable_notifications.html')
+
 
 def send_notification_email(jobs_list):
-
     sender = 'burnoutapp123@gmail.com'
     password = 'xszyjpklynmwqsgh'
     receiver = "shubhamkulkarni2421@gmail.com"
@@ -407,22 +439,29 @@ def send_notification_email(jobs_list):
     body = "Job Listings:\n\n"
 
     for jobs in jobs_list:
-        body += f"""
-    Job Title: {jobs['Job Title']}
-    Company: {jobs['Company Name']}
-    Location: {jobs['Location']}
-    Job Function: {jobs['Job function']}
-    Employment Type: {jobs['Employment type']}
-    Industries: {jobs['Industries']}
-    Date Posted: {jobs['Date Posted']}
-    Job Description: {jobs['Job Description'][:200]}...
+        job_title = jobs.get('Job Title', 'N/A')
+        company_name = jobs.get('Company Name', 'N/A')
+        location = jobs.get('Location', 'N/A')
+        job_function = jobs.get('Job function', 'N/A')
+        employment_type = jobs.get('Employment type', 'N/A')
+        industries = jobs.get('Industries', 'N/A')
+        date_posted = jobs.get('Date Posted', 'N/A')
+        job_description = jobs.get('Job Description', 'N/A')
 
-    """
+        body += f"""
+        Job Title: {job_title}
+        Company: {company_name}
+        Location: {location}
+        Job Function: {job_function}
+        Employment Type: {employment_type}
+        Industries: {industries}
+        Date Posted: {date_posted}
+        Job Description: {job_description[:200]}...
+        """
 
     body += "\nFor more details, please check the job postings on our platform."
 
     try:
-
         em = EmailMessage()
         em['From'] = sender
         em['To'] = receiver

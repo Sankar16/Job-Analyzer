@@ -56,12 +56,9 @@
                     <a class="nav-link" href="{{ url_for('search')}}"><i class="fa fa-search"
                             aria-hidden="true"></i>&nbsp; Search for Jobs</a>
                 </li>
-                <li class="nav-item">
-                    <span class="toggle-label">Enable Notifications:</span>
-                    <label class="switch">
-                        <input type="checkbox" id="toggleSwitch">
-                        <span class="slider round"></span>
-                    </label>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ url_for('notifications')}}"><i class="fa fa-notification"
+                            aria-hidden="true"></i>&nbsp; Enable Notifications</a>
                 </li>
             </ul>
             <script>
