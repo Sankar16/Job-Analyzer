@@ -19,6 +19,12 @@
               </div>
               {% endif %}
 
+              {% if success %}
+              <div class="alert alert-success" role="alert">
+                {{ success }}
+              </div>
+              {% endif %}
+
               <form name="otp_form" class="mx-1 mx-md-4" method="post" action="{{ url_for('verify_signup_otp') }}">
 
                 <div class="d-flex flex-row align-items-center mb-4">
