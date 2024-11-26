@@ -1,7 +1,6 @@
 from email.message import EmailMessage
 from functools import wraps
-from json import dumps
-import json
+
 import smtplib
 import ssl
 from flask import Flask, render_template, request, session, redirect, url_for, flash, jsonify  # noqa: E402
@@ -11,8 +10,7 @@ from passlib.hash import pbkdf2_sha256
 from pandas import DataFrame  # noqa: E402
 import re  # noqa: E402
 import numpy as np  # noqa: E402
-from flask_mail import Mail, Message
-
+from resume_analyzer import resume_analyzer 
 """
 The module app holds the function related to flask app and database.
 """
@@ -48,6 +46,7 @@ Client connection
 '''
 db = mongodb_client.db
 
+app.register_blueprint(resume_analyzer, url_prefix='/resume')
 
 def login_required(f):
     """
@@ -396,6 +395,7 @@ def toggle_on():
     #     send_notification_email(job)
     #     break
     return jsonify({'message': 'Function executed successfully'}), 200
+
 
 def send_notification_email(jobs_list):
 
