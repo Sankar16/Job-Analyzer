@@ -11,8 +11,7 @@ from passlib.hash import pbkdf2_sha256
 from pandas import DataFrame  # noqa: E402
 import re  # noqa: E402
 import numpy as np  # noqa: E402
-from flask_mail import Mail, Message
-
+from src.resume_analyzer import resume_analyzer
 """
 The module app holds the function related to flask app and database.
 """
