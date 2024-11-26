@@ -90,20 +90,20 @@ def showUserProfile():
     return User().showProfile()
 
 
-@app.route('/user/saveResume', methods=['POST'])
-def saveResume():
+@app.route('/user/save_resume', methods=['POST'])
+def save_resume():
     '''
     Saves resume
     '''
-    return User().saveResume()
+    return User().save_resume()
 
 
 @app.route('/download/<fileid>')
-def downloadResume(fileid):
+def download_resume(fileid):
     '''
     Downloads a file from GridFS
     '''
-    return User().downloadResume(fileid)
+    return User().download_resume(fileid)
 
 
 @app.route('/healthcheck', methods=['GET'])

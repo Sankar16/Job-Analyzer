@@ -2,13 +2,18 @@
 Contains user model functions
 '''
 
-from flask import jsonify, request, session, redirect, render_template, send_file
-from passlib.hash import pbkdf2_sha256
-from src.app import db
+from io import BytesIO
+import smtplib
+from email.mime.text import MIMEText
+import ssl
+import random
 import uuid
 import gridfs
-from io import BytesIO
+
+from flask import jsonify, request, session, redirect, render_template, send_file # noqa
+from passlib.hash import pbkdf2_sha256
 from bson import ObjectId
+from src.app import db
 
 fs = gridfs.GridFS(db)
 
@@ -17,7 +22,7 @@ class User:
     '''
     This class handles user session and profile operations
     '''
-    def startSession(self, user):
+    def start_session(self, user):
         '''
         Start the user session
         '''
@@ -30,7 +35,11 @@ class User:
         '''
         User signup with email verification
         '''
-        if not request.form.get('name') or not request.form.get('email') or not request.form.get('password'):
+        if not all([
+            request.form.get('name'),
+            request.form.get('email'),
+            request.form.get('password')
+        ]):
             return redirect('/')
 
         user = {
@@ -46,7 +55,6 @@ class User:
 
         if db.users.insert_one(user):
             # Generate OTP
-            import random
             otp = str(random.randint(100000, 999999))  # 6-digit OTP
 
             # Save OTP in user's record
@@ -69,30 +77,27 @@ class User:
         '''
         if request.method == 'GET':
             return render_template('verify_signup_otp.html')
-        else:
-            # POST request: process the OTP entered by the user
-            entered_otp = request.form.get('otp')
-            email = session.get('user_email')
+        # POST request: process the OTP entered by the user
+        entered_otp = request.form.get('otp')
+        email = session.get('user_email')
+        if not email:
+            return redirect('/')
 
-            if not email:
-                return redirect('/')
-
-            user = db.users.find_one({'email': email})
-            if user and 'otp' in user and user['otp'] == entered_otp:
-                # OTP is correct
-                # Remove the otp from the user's record
-                db.users.update_one({'email': email}, {'$unset': {'otp': ''}})
-                # Set is_verified to True
-                db.users.update_one({'email': email}, {'$set': {'is_verified': True}})
-                # Start the session
-                self.startSession(user)
-                # Remove user_email from session
-                session.pop('user_email', None)
-                return redirect('/home')
-            else:
-                # OTP is incorrect
-                error = 'Invalid OTP. Please try again.'
-                return render_template('verify_signup_otp.html', error=error)
+        user = db.users.find_one({'email': email})
+        if user and 'otp' in user and user['otp'] == entered_otp:
+            # OTP is correct
+            # Remove the otp from the user's record
+            db.users.update_one({'email': email}, {'$unset': {'otp': ''}})
+            # Set is_verified to True
+            db.users.update_one({'email': email}, {'$set': {'is_verified': True}})
+            # Start the session
+            self.start_session(user)
+            # Remove user_email from session
+            session.pop('user_email', None)
+            return redirect('/home')
+        # OTP is incorrect
+        error = 'Invalid OTP. Please try again.'
+        return render_template('verify_signup_otp.html', error=error)
 
     def resend_signup_otp(self):
         '''
@@ -106,7 +111,6 @@ class User:
         user = db.users.find_one({'email': email})
         if user:
             # Generate new OTP
-            import random
             otp = str(random.randint(100000, 999999))  # 6-digit OTP
 
             # Update OTP in the user's record
@@ -118,8 +122,7 @@ class User:
             # Pass a success message to the template
             success = 'A new OTP has been sent to your email.'
             return render_template('verify_signup_otp.html', success=success)
-        else:
-            return redirect('/')
+        return redirect('/')
 
     def logout(self):
         '''
@@ -142,7 +145,6 @@ class User:
         print(user)
         if user and pbkdf2_sha256.verify(request.form.get('password'), user['password']):
             # Generate OTP
-            import random
             otp = str(random.randint(100000, 999999))  # 6-digit OTP
 
             # Save OTP in the user's record
@@ -156,21 +158,15 @@ class User:
 
             # Redirect to OTP verification page
             return redirect('/user/verify_otp')
-
-        elif user:
+        if user:
             session['isCredentialsWrong'] = True
             return redirect('/')
-        else:
-            return redirect('/')
+        return redirect('/')
 
     def send_otp_email(self, email, otp):
         '''
         Send an email with the OTP code using SSL
         '''
-        import smtplib
-        from email.mime.text import MIMEText
-        import ssl
-
         # Set up your SMTP server settings
         smtp_server = 'smtp.gmail.com'
         smtp_port = 465  # SSL port
@@ -203,29 +199,26 @@ class User:
         '''
         if request.method == 'GET':
             return render_template('verify_otp.html')
-        else:
-            # POST request: process the OTP entered by the user
-            entered_otp = request.form.get('otp')
-            email = session.get('user_email')
+        # POST request: process the OTP entered by the user
+        entered_otp = request.form.get('otp')
+        email = session.get('user_email')
 
-            if not email:
-                return redirect('/')
+        if not email:
+            return redirect('/')
 
-            user = db.users.find_one({'email': email})
-            if user and 'otp' in user and user['otp'] == entered_otp:
-                # OTP is correct
-                # Remove the otp from the user's record
-                db.users.update_one({'email': email}, {'$unset': {'otp': ''}})
-
-                # Start the session
-                self.startSession(user)
-                # Remove user_email from session
-                session.pop('user_email', None)
-                return redirect('/home')
-            else:
-                # OTP is incorrect
-                error = 'Invalid OTP. Please try again.'
-                return render_template('verify_otp.html', error=error)
+        user = db.users.find_one({'email': email})
+        if user and 'otp' in user and user['otp'] == entered_otp:
+            # OTP is correct
+            # Remove the otp from the user's record
+            db.users.update_one({'email': email}, {'$unset': {'otp': ''}})
+             # Start the session
+            self.start_session(user)
+            # Remove user_email from session
+            session.pop('user_email', None)
+            return redirect('/home')
+        # OTP is incorrect
+        error = 'Invalid OTP. Please try again.'
+        return render_template('verify_otp.html', error=error)
 
     def resend_login_otp(self):
         '''
@@ -239,7 +232,6 @@ class User:
         user = db.users.find_one({'email': email})
         if user:
             # Generate new OTP
-            import random
             otp = str(random.randint(100000, 999999))  # 6-digit OTP
 
             # Update OTP in the user's record
@@ -251,8 +243,7 @@ class User:
             # Pass a success message to the template
             success = 'A new OTP has been sent to your email.'
             return render_template('verify_otp.html', success=success)
-        else:
-            return redirect('/')
+        return redirect('/')
 
     def showProfile(self):
         '''
@@ -261,7 +252,7 @@ class User:
         user = session['user']
         return render_template('user_profile.html', user=user)
 
-    def saveResume(self):
+    def save_resume(self):
         '''
         Saves resume and renders User profile
         '''
@@ -284,6 +275,11 @@ class User:
 
         return render_template('user_profile.html', user=session['user'])
 
-    def downloadResume(self, fileid):
+    def download_resume(self, fileid):
         file_data = fs.get(ObjectId(fileid))
-        return send_file(BytesIO(file_data.read()), mimetype='application/pdf', as_attachment=False, download_name=file_data.filename)
+        return send_file(
+            BytesIO(file_data.read()),
+            mimetype='application/pdf',
+            as_attachment=False,
+            download_name=file_data.filename
+        )
