@@ -33,7 +33,7 @@ jobs:
 
     - name: Run tests with coverage
       run: |
-        pytest --cov=Job-Analyzer tests/
+        pytest --cov=Job-Analyzer test/
 
     - name: Upload coverage to Codecov
       run: |
