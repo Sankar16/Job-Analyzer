@@ -58,27 +58,108 @@ class User:
         session.clear()
         return redirect('/')
 
+
     def login(self):
         '''
-        Session Login
+        Session Login with 2FA via email OTP
         '''
         session['isCredentialsWrong'] = False
 
-        if (request.form.get('email') == "" or request.form.get('password') == ""):
+        if not request.form.get('email') or not request.form.get('password'):
             session['isCredentialsWrong'] = True
             return redirect('/')
 
         user = db.users.find_one({'email': request.form.get('email')})
         print(user)
-        if user and pbkdf2_sha256.verify(str(request.form.get('password')), user['password']):
-            self.startSession(user)
-            session['isCredentialsWrong'] = False
-            return redirect('/home')
-        elif user and not pbkdf2_sha256.verify(str(request.form.get('password')), user['password']):
+        if user and pbkdf2_sha256.verify(request.form.get('password'), user['password']):
+            # Generate OTP
+            import random
+            otp = str(random.randint(100000, 999999))  # 6-digit OTP
+
+            # Save OTP in the user's record
+            db.users.update_one({'email': user['email']}, {'$set': {'otp': otp}})
+
+            # Send email with OTP
+            self.send_otp_email(user['email'], otp)
+
+            # Save user's email in session
+            session['user_email'] = user['email']
+
+            # Redirect to OTP verification page
+            return redirect('/user/verify_otp')
+
+        elif user:
             session['isCredentialsWrong'] = True
             return redirect('/')
         else:
             return redirect('/')
+
+
+    def send_otp_email(self, email, otp):
+        '''
+        Send an email with the OTP code using SSL
+        '''
+        import smtplib
+        from email.mime.text import MIMEText
+        import ssl
+
+        # Set up your SMTP server settings
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 465  # SSL port
+        smtp_username = 'burnoutapp123@gmail.com'  # Replace with your email
+        smtp_password = 'xszyjpklynmwqsgh'   # Replace with your email password or app password
+
+        # Create the email content
+        subject = 'Your OTP Code'
+        body = f'Your OTP code is: {otp}'
+
+        msg = MIMEText(body)
+        msg['Subject'] = subject
+        msg['From'] = smtp_username
+        msg['To'] = email
+
+        # Create SSL context
+        context = ssl.create_default_context()
+
+        # Send the email using SMTP_SSL
+        try:
+            with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context) as server:
+                server.login(smtp_username, smtp_password)
+                server.sendmail(smtp_username, email, msg.as_string())
+        except Exception as e:
+            print('Failed to send email:', e)
+
+
+    def verify_otp(self):
+        '''
+        Verify the OTP code entered by the user
+        '''
+        if request.method == 'GET':
+            return render_template('verify_otp.html')
+        else:
+            # POST request: process the OTP entered by the user
+            entered_otp = request.form.get('otp')
+            email = session.get('user_email')
+
+            if not email:
+                return redirect('/')
+
+            user = db.users.find_one({'email': email})
+            if user and 'otp' in user and user['otp'] == entered_otp:
+                # OTP is correct
+                # Remove the otp from the user's record
+                db.users.update_one({'email': email}, {'$unset': {'otp': ''}})
+
+                # Start the session
+                self.startSession(user)
+                # Remove user_email from session
+                session.pop('user_email', None)
+                return redirect('/home')
+            else:
+                # OTP is incorrect
+                error = 'Invalid OTP. Please try again.'
+                return render_template('verify_otp.html', error=error)
+
 
     def showProfile(self):
         '''

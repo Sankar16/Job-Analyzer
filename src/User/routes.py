@@ -49,6 +49,15 @@ def loginUser():
     return User().login()
 
 
+@app.route('/user/verify_otp', methods=['GET', 'POST'])
+def verify_otp():
+    '''
+    Handle OTP verification
+    '''
+    return User().verify_otp()
+
+
+
 @app.route('/user/profile', methods=['GET'])
 def showUserProfile():
     '''
