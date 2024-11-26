@@ -61,5 +61,4 @@ pymongo[srv]
 pytest-cov==3.0.0
 python-docx
 pdfplumber
-sklearn
 scikit-learn
