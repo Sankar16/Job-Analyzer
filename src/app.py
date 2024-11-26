@@ -457,6 +457,10 @@ def send_notification_email(jobs_list):
         Industries: {industries}
         Date Posted: {date_posted}
         Job Description: {job_description[:200]}...
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1baf3cb (add tests)
         """
 
     body += "\nFor more details, please check the job postings on our platform."
