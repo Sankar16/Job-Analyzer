@@ -35,7 +35,7 @@ mongo_conn = "mongodb+srv://abivis2k:7aNqw7B9gsAfxznS@job-cluster.ayr8p.mongodb.
 '''
 Mongo connection string
 '''
-mongo_params = "?tlsAllowInvalidCertificates=true&retryWrites=true&w=majority"
+mongo_params = "?tlsAllowInvalidCertificates=true, retryWrites=true, w=majority"
 '''
 Mongo parameters
 '''
@@ -48,6 +48,7 @@ Client connection
 db = mongodb_client.db
 
 app.register_blueprint(resume_analyzer, url_prefix='/resume')
+
 
 def login_required(f):
     """
@@ -176,7 +177,7 @@ def home():
 #     return render_template('login.html')
 
 
-@app.route('/joblistings', methods=('GET','POST'))
+@app.route('/joblistings', methods=('GET', 'POST'))
 def joblistings():
     '''
     This function fetches data from database on the search filter
@@ -392,7 +393,6 @@ _thread_lock = threading.Lock()
 def run_periodically(interval, func, *args, **kwargs):
     """
     Ensure a single thread runs a function periodically.
-    
     Parameters:
         interval (int): The interval in seconds between function calls.
         func (callable): The function to run.
@@ -424,11 +424,11 @@ def notificaionconfigured():
         run_periodically(60, send_notification_email, jobs_dict)
     return render_template('notification_configured.html')
 
+
 @app.route('/notifications', methods=('GET', 'POST'))
 def notifications():
     print("Toggle switch is now on!")
     return render_template('enable_notifications.html')
-
 
 
 def send_notification_email(jobs_list):
