@@ -130,16 +130,13 @@ The `docs` folder incorporates all necessary documents and documentation in our 
 ## Future Scope:
    As the job market grows exponentially every year, the JobCruncher tool has to keep up with this pace and hence has to shed many overheads induced in the current process.
    
-### Phase 2:
-  1.	**Deploying on AWS** – Make JobCruncher serverless by using AWS Lambda, S3, CloudWatch, and SNS services, thereby amplifying usability and scheduling jobs to scrape job listings from each employment-oriented site every X hours.
+### Phase 3:
+  1. **Containerization with Docker:** Use Docker to containerize the JobCruncher application, ensuring consistency across development, testing, and production environments. This simplifies deployment and dependency management, reducing environment-related issues.
+  2. **Recruiter Portal:** Introduce a portal for recruiters to post jobs, manage applications, and interact with candidates. This facilitates direct communication between job seekers and recruiters, streamlining the hiring process within JobCruncher.
+  3. **Advanced Data Scraping Mechanisms:** Implement sophisticated scraping techniques to aggregate job postings from various online sources in real-time. This expands the job database, offering users more comprehensive and up-to-date job listings.
+  4. **Orchestrated Deployment with Kubernetes:** Utilize Kubernetes to automate deployment, scaling, and management of the containerized application. This allows JobCruncher to efficiently handle increasing user loads with robust load balancing and self-healing capabilities.
+  5. **Advanced Job Matching Algorithm:** Enhance the job recommendation system with machine learning algorithms that better understand user preferences and skills. This delivers more accurate and relevant job suggestions, improving user satisfaction.
 
-  2.	**Resume analyzer** – Provide a resume analyzer that offers services to match jobs by analyzing resumes, give ATS scores, and suggest personalized resume improvements for specific jobs.
-  
-  3.	**2FA** - Enhance security by implementing two-factor authentication (2FA), significantly reducing the risk of unauthorized access and ensuring that sensitive information remains secure
-
-  4.	**Recruiter page** - Introduce a new user type known as "recruiter," who will possess the capability to create, manage, and oversee job listings efficiently, facilitating a streamlined hiring process and enhancing the overall recruitment experience
-
-  5.	**Notification System** – Introduce a notification system to notify users about new job openings by sending timely email alerts, ensuring they stay informed and never miss out on potential opportunities that align with their career aspirations.
 
 ## Roadmap
 We have a lot planned for the future! Completed tasks and future enhancements can be found [here](https://github.com/orgs/SE24Fall/projects/1)
