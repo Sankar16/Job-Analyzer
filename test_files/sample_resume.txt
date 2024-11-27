@@ -1,0 +1,1 @@
+This is a sample text file. It is used to test the upload of unsupported file formats in the resume analyzer application.
