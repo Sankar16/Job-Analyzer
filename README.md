@@ -32,17 +32,21 @@ JobCruncher is built for those with packed schedules, balancing studies, project
 
 So, leave the tedious and monotonous task of looking up the job postings to our JobCruncher that not only provides the jobs posted every day but helps to filter out the results based on your liking.
 
+## PHASE:02
+
 # So why use JobCruncher instead?
 
 ## Project Video
 https://github.com/user-attachments/assets/3a5857ee-497e-4185-a770-513f36ab3f61
 
 ## Project Video
-https://youtu.be/Y0cCEYPqP_k
+https://www.youtube.com/watch?v=H823ocClZ-k
 
 Unlike many other job portals, JobCruncher is a simple, lightweight, online tool that helps users get clear information about the jobs posted on LinkedIn and further help the user finetune the results.
 
 Further, it helps to provide the user insights about the job postings and as the scraper is executed every day, the user is always provided with the most recent job postings.
+
+With the new enhancements for resume Analysis to find your ATS score, Getting notified about new job postings which are tailored according to your need and enhanced security with 2FA authentication, job cruncher has become more robust and engaging than ever before.
 
 # Deployment and Scalability
 ![arch](https://user-images.githubusercontent.com/57044378/205757699-815515cd-a07b-4d64-8ca5-f61f9e82c080.jpg)
@@ -130,16 +134,14 @@ The `docs` folder incorporates all necessary documents and documentation in our 
 ## Future Scope:
    As the job market grows exponentially every year, the JobCruncher tool has to keep up with this pace and hence has to shed many overheads induced in the current process.
    
-### Phase 3:
+### Phase 3 FUTURE ROADMAP:
+
   1. **Containerization with Docker:** Use Docker to containerize the JobCruncher application, ensuring consistency across development, testing, and production environments. This simplifies deployment and dependency management, reducing environment-related issues.
   2. **Recruiter Portal:** Introduce a portal for recruiters to post jobs, manage applications, and interact with candidates. This facilitates direct communication between job seekers and recruiters, streamlining the hiring process within JobCruncher.
   3. **Advanced Data Scraping Mechanisms:** Implement sophisticated scraping techniques to aggregate job postings from various online sources in real-time. This expands the job database, offering users more comprehensive and up-to-date job listings.
   4. **Orchestrated Deployment with Kubernetes:** Utilize Kubernetes to automate deployment, scaling, and management of the containerized application. This allows JobCruncher to efficiently handle increasing user loads with robust load balancing and self-healing capabilities.
   5. **Advanced Job Matching Algorithm:** Enhance the job recommendation system with machine learning algorithms that better understand user preferences and skills. This delivers more accurate and relevant job suggestions, improving user satisfaction.
 
-
-## Roadmap
-We have a lot planned for the future! Completed tasks and future enhancements can be found [here](https://github.com/orgs/SE24Fall/projects/1)
 
 ## Contributors
 Thanks goes to these wonderful people. 
