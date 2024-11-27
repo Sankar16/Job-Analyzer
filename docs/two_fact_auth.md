@@ -199,7 +199,6 @@ Logs the user out by clearing the session.
 - **Flask-Mail**: Extension for sending emails through SMTP.
 - **Passlib**: Library for secure password hashing.
 - **Random and String Modules**: For OTP generation.
-- **Datetime**: For handling OTP expiry times.
 - **Database Driver**: Such as `PyMongo` for MongoDB to interact with the database.
 
 ---
