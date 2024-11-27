@@ -96,6 +96,13 @@ Check [INSTALL.md](https://github.com/SE24Fall/Job-Analyzer/blob/main/INSTALL.md
 ## Two-factor Authentication
 <img width="1512" alt="Screenshot 2024-11-26 at 7 09 19 PM" src="https://github.com/user-attachments/assets/6cb71490-f741-4ed6-a261-b41419128c7e">
 
+## Resume Analyzer
+<img width="1512" alt="Screenshot 2024-11-26 at 7 12 58 PM" src="https://github.com/user-attachments/assets/6278e85a-e47d-411f-b362-19ec2163a411">
+
+## Push Notifications 
+<img width="1512" alt="Screenshot 2024-11-26 at 7 17 35 PM" src="https://github.com/user-attachments/assets/82e33c29-2237-4fff-8477-566433f1822e">
+
+
 # Tech Stack used for the development of this project
  
  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="python" width="20" height="20"/> Python </br>
