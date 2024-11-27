@@ -25,7 +25,7 @@
 [![CodeQL Advanced](https://github.com/Sankar16/Job-Analyzer/actions/workflows/codeql.yml/badge.svg)](https://github.com/Sankar16/Job-Analyzer/actions/workflows/codeql.yml)
 [![Code Coverage](https://github.com/Sankar16/Job-Analyzer/actions/workflows/code_coverage.yml/badge.svg)](https://github.com/Sankar16/Job-Analyzer/actions/workflows/code_coverage.yml)
 
-## Group 59
+## Group 60
 Juggling multiple assignments, quizzes, projects, presentations, and clutching the deadlines every week? Feel like you have no time to watch your favorite series or sports team play let alone search for job posting on a day-to-day basis? Here comes JobCruncher.
 
 JobCruncher is built for those with packed schedules, balancing studies, projects, and personal interests. It simplifies job searching by providing an easy-to-use, streamlined platform for finding the best-matched roles in less time. With a lightweight, user-friendly interface, JobCruncher lets users have a secured platform, modify resume, bookmark job postings and filter job postings according to title, location, company, skills, and job type, giving you the freedom to focus on life while we handle the search. 
@@ -33,6 +33,10 @@ JobCruncher is built for those with packed schedules, balancing studies, project
 So, leave the tedious and monotonous task of looking up the job postings to our JobCruncher that not only provides the jobs posted every day but helps to filter out the results based on your liking.
 
 # So why use JobCruncher instead?
+
+
+https://github.com/user-attachments/assets/3a5857ee-497e-4185-a770-513f36ab3f61
+
 
 ## Project Video
 https://github.com/user-attachments/assets/511e0804-9d44-47ad-bac3-afaa46f6ca2c
