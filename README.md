@@ -97,7 +97,9 @@ Check [INSTALL.md](https://github.com/SE24Fall/Job-Analyzer/blob/main/INSTALL.md
 <img width="1512" alt="Screenshot 2024-11-26 at 7 09 19 PM" src="https://github.com/user-attachments/assets/6cb71490-f741-4ed6-a261-b41419128c7e">
 
 ## Resume Analyzer
-<img width="1512" alt="Screenshot 2024-11-26 at 7 12 58 PM" src="https://github.com/user-attachments/assets/6278e85a-e47d-411f-b362-19ec2163a411">
+<img width="1512" alt="Screenshot 2024-11-26 at 7 10 48 PM" src="https://github.com/user-attachments/assets/71cd9001-62fc-48d8-8799-061d135838b0">
+
+
 
 ## Push Notifications 
 <img width="1512" alt="Screenshot 2024-11-26 at 7 17 35 PM" src="https://github.com/user-attachments/assets/82e33c29-2237-4fff-8477-566433f1822e">
