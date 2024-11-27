@@ -34,12 +34,8 @@ So, leave the tedious and monotonous task of looking up the job postings to our 
 
 # So why use JobCruncher instead?
 
-
-https://github.com/user-attachments/assets/3a5857ee-497e-4185-a770-513f36ab3f61
-
-
 ## Project Video
-https://github.com/user-attachments/assets/511e0804-9d44-47ad-bac3-afaa46f6ca2c
+https://github.com/user-attachments/assets/3a5857ee-497e-4185-a770-513f36ab3f61
 
 ## Project Video
 https://youtu.be/Y0cCEYPqP_k
