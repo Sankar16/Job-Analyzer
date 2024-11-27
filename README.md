@@ -146,6 +146,13 @@ We have a lot planned for the future! Completed tasks and future enhancements ca
 
 ## Contributors
 Thanks goes to these wonderful people. 
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/apurv-choudhari"><img src="https://avatars.githubusercontent.com/u/81951099?s=400&v=4" width="100px;" alt=""/><br/><sub><b>Apurv Choudhari</b></sub></a></td>
+    <td align="center"><a href="https://github.com/Prabhudatta3004"><img src="https://avatars.githubusercontent.com/u/75059607?s=400&v=4" width="100px;" alt=""/><br/><sub><b>Prabhudatta Mishra</b></sub></a></td>
+    <td align="center"><a href="https://github.com/Sankar16"><img src="https://avatars.githubusercontent.com/u/179175525?s=400&v=4" width="100px;" alt=""/><br/><sub><b>Sankar Raghuthaman</b></sub></a></td>
+  </tr>
+</table>
 
 <table>
   <tr>
