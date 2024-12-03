@@ -386,7 +386,7 @@ def read_from_db(request, db):
     return DataFrame(list(data))
 
 
-_periodic_thread = None
+_PERIODIC_THREAD = None
 _thread_lock = threading.Lock()
 
 
@@ -399,7 +399,7 @@ def run_periodically(interval, func, *args, **kwargs):
         *args: Positional arguments for the function.
         **kwargs: Keyword arguments for the function.
     """
-    global _periodic_thread
+    global _PERIODIC_THREAD
 
     def wrapper():
         while True:
@@ -407,10 +407,10 @@ def run_periodically(interval, func, *args, **kwargs):
             time.sleep(interval)
 
     with _thread_lock:
-        if _periodic_thread is None or not _periodic_thread.is_alive():
+        if _PERIODIC_THREAD is None or not _PERIODIC_THREAD.is_alive():
             # Create and start the thread
-            _periodic_thread = threading.Thread(target=wrapper, daemon=True)
-            _periodic_thread.start()
+            _PERIODIC_THREAD = threading.Thread(target=wrapper, daemon=True)
+            _PERIODIC_THREAD.start()
 
 
 @app.route('/notificaionconfigured', methods=('GET', 'POST'))
@@ -435,29 +435,21 @@ def send_notification_email(jobs_list):
     sender = 'burnoutapp123@gmail.com'
     password = 'xszyjpklynmwqsgh'
     receiver = "shubhamkulkarni2421@gmail.com"
+    # receiver = session.user.email
 
-    subject = 'Job-Cruncher: New Job Notification'
     body = "Job Listings:\n\n"
 
     for jobs in jobs_list:
-        job_title = jobs.get('Job Title', 'N/A')
-        company_name = jobs.get('Company Name', 'N/A')
-        location = jobs.get('Location', 'N/A')
-        job_function = jobs.get('Job function', 'N/A')
-        employment_type = jobs.get('Employment type', 'N/A')
-        industries = jobs.get('Industries', 'N/A')
-        date_posted = jobs.get('Date Posted', 'N/A')
-        job_description = jobs.get('Job Description', 'N/A')
 
         body += f"""
-        Job Title: {job_title}
-        Company: {company_name}
-        Location: {location}
-        Job Function: {job_function}
-        Employment Type: {employment_type}
-        Industries: {industries}
-        Date Posted: {date_posted}
-        Job Description: {job_description[:200]}...
+        Job Title: {jobs.get('Job Title', 'N/A')}
+        Company: {jobs.get('Company Name', 'N/A')}
+        Location: {jobs.get('Location', 'N/A')}
+        Job Function: {jobs.get('Job function', 'N/A')}
+        Employment Type: {jobs.get('Employment type', 'N/A')}
+        Industries: {jobs.get('Industries', 'N/A')}
+        Date Posted: {jobs.get('Date Posted', 'N/A')}
+        Job Description: {jobs.get('Job Description', 'N/A')[:200]}...
         """
 
     body += "\nFor more details, please check the job postings on our platform."
@@ -466,7 +458,7 @@ def send_notification_email(jobs_list):
         em = EmailMessage()
         em['From'] = sender
         em['To'] = receiver
-        em['Subject'] = subject
+        em['Subject'] = 'Job-Cruncher: New Job Notification'
         em.set_content(body)
 
         context = ssl.create_default_context()
