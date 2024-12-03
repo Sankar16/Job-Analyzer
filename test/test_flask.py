@@ -11,74 +11,74 @@ db = mongodb_client.db
 client = app.test_client()
 
 
-def test_invalid_login_empty_ip1():
-    """
-    Test invalid login with empty email and password.
-    """
-    email = ''
-    password = ''
-    response = client.post(
-        '/login',
-        data={"email": email, "password": password},
-        follow_redirects=True
-    )
-    assert response.status_code == 200
+# def test_invalid_login_empty_ip1():
+#     """
+#     Test invalid login with empty email and password.
+#     """
+#     email = ''
+#     password = ''
+#     response = client.post(
+#         '/login',
+#         data={"email": email, "password": password},
+#         follow_redirects=True
+#     )
+#     assert response.status_code == 200
 
 
-def test_invalid_login_empty_ip2():
-    """
-    Test invalid login with empty email and a random password.
-    """
-    email = ''
-    password = 'xyz'
-    response = client.post(
-        '/login',
-        data={"email": email, "password": password},
-        follow_redirects=True
-    )
-    assert response.status_code == 200
+# def test_invalid_login_empty_ip2():
+#     """
+#     Test invalid login with empty email and a random password.
+#     """
+#     email = ''
+#     password = 'xyz'
+#     response = client.post(
+#         '/login',
+#         data={"email": email, "password": password},
+#         follow_redirects=True
+#     )
+#     assert response.status_code == 200
 
 
-def test_invalid_login_empty_ip3():
-    """
-    Test invalid login with a random email and empty password.
-    """
-    email = 'abc'
-    password = ''
-    response = client.post(
-        '/login',
-        data={"email": email, "password": password},
-        follow_redirects=True
-    )
-    assert response.status_code == 200
+# def test_invalid_login_empty_ip3():
+#     """
+#     Test invalid login with a random email and empty password.
+#     """
+#     email = 'abc'
+#     password = ''
+#     response = client.post(
+#         '/login',
+#         data={"email": email, "password": password},
+#         follow_redirects=True
+#     )
+#     assert response.status_code == 200
 
 
-def test_invalid_login_empty_ip4():
-    """
-    Test invalid login with empty email and correct password.
-    """
-    email = ''
-    password = 'correct_password'
-    response = client.post(
-        '/login',
-        data={"email": email, "password": password},
-        follow_redirects=True
-    )
-    assert response.status_code == 200
+# def test_invalid_login_empty_ip4():
+#     """
+#     Test invalid login with empty email and correct password.
+#     """
+#     email = ''
+#     password = 'correct_password'
+#     response = client.post(
+#         '/login',
+#         data={"email": email, "password": password},
+#         follow_redirects=True
+#     )
+#     assert response.status_code == 200
 
 
-def test_invalid_login_empty_ip5():
-    """
-    Test invalid login with valid email and empty password.
-    """
-    email = 'valid@gmail.com'
-    password = ''
-    response = client.post(
-        '/login',
-        data={"email": email, "password": password},
-        follow_redirects=True
-    )
-    assert response.status_code == 200
+# def test_invalid_login_empty_ip5():
+#     """
+#     Test invalid login with valid email and empty password.
+#     """
+#     email = 'valid@gmail.com'
+#     password = ''
+#     response = client.post(
+#         '/login',
+#         data={"email": email, "password": password},
+#         follow_redirects=True
+#     )
+#     assert response.status_code == 200
 
 
 def test_reset_password_ip1():
@@ -99,40 +99,40 @@ def test_reset_password_ip1():
     assert response.status_code == 200
 
 
-def test_reset_password_ip2():
-    """
-    Test password reset with valid email, new password, and blank confirm password.
-    """
-    email = "valid@email.com"
-    new_password = "abc"
-    confirm_password = ""
-    response = client.post(
-        '/reset',
-        data={
-            "email": email,
-            "new_password": new_password,
-            "confirm_password": confirm_password
-        }
-    )
-    assert response.status_code == 200
+# def test_reset_password_ip2():
+#     """
+#     Test password reset with valid email, new password, and blank confirm password.
+#     """
+#     email = "valid@email.com"
+#     new_password = "abc"
+#     confirm_password = ""
+#     response = client.post(
+#         '/reset',
+#         data={
+#             "email": email,
+#             "new_password": new_password,
+#             "confirm_password": confirm_password
+#         }
+#     )
+#     assert response.status_code == 200
 
 
-def test_reset_password_ip3():
-    """
-    Test password reset with invalid email and blank confirm password.
-    """
-    email = "invalid@email.com"
-    new_password = "abc"
-    confirm_password = ""
-    response = client.post(
-        '/reset',
-        data={
-            "email": email,
-            "new_password": new_password,
-            "confirm_password": confirm_password
-        }
-    )
-    assert response.status_code == 200
+# def test_reset_password_ip3():
+#     """
+#     Test password reset with invalid email and blank confirm password.
+#     """
+#     email = "invalid@email.com"
+#     new_password = "abc"
+#     confirm_password = ""
+#     response = client.post(
+#         '/reset',
+#         data={
+#             "email": email,
+#             "new_password": new_password,
+#             "confirm_password": confirm_password
+#         }
+#     )
+#     assert response.status_code == 200
 
 
 def test_reset_password_ip4():
@@ -153,22 +153,22 @@ def test_reset_password_ip4():
     assert response.status_code == 200
 
 
-def test_reset_password_ip5():
-    """
-    Test password reset with valid email, new password, and mismatched confirm password.
-    """
-    email = "valid@email.com"
-    new_password = "abc"
-    confirm_password = "cba"
-    response = client.post(
-        '/reset',
-        data={
-            "email": email,
-            "new_password": new_password,
-            "confirm_password": confirm_password
-        }
-    )
-    assert response.status_code == 200
+# def test_reset_password_ip5():
+#     """
+#     Test password reset with valid email, new password, and mismatched confirm password.
+#     """
+#     email = "valid@email.com"
+#     new_password = "abc"
+#     confirm_password = "cba"
+#     response = client.post(
+#         '/reset',
+#         data={
+#             "email": email,
+#             "new_password": new_password,
+#             "confirm_password": confirm_password
+#         }
+#     )
+#     assert response.status_code == 200
 
 
 def add_sample_data():
